@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Home() {
   return (
@@ -6,13 +7,15 @@ export default function Home() {
       {/* Header */}
       <header className="border-b border-gray-100">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-600">
-              <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
-              </svg>
-            </div>
-            <span className="text-lg font-bold text-gray-900">QueueFlow</span>
+          <div className="flex items-center gap-3">
+            <Image
+              src="/carelabs-logo.svg"
+              alt="CareLabs"
+              width={140}
+              height={23}
+              priority
+            />
+            <span className="text-xs font-medium text-gray-400 border-l border-gray-200 pl-3">QueueFlow</span>
           </div>
           <Link
             href="/auth/login"
@@ -26,12 +29,13 @@ export default function Home() {
       {/* Hero */}
       <section className="mx-auto max-w-6xl px-6 py-24">
         <div className="max-w-2xl">
+          <p className="text-sm font-medium text-teal-600 mb-3">By CareLabs Sweden</p>
           <h1 className="text-5xl font-bold tracking-tight text-gray-900">
             Smart queue management for modern businesses
           </h1>
           <p className="mt-6 text-lg text-gray-600 leading-relaxed">
             Reduce wait times, eliminate physical lines, and improve customer satisfaction.
-            QueueFlow gives your customers a seamless digital queuing experience.
+            QueueFlow by CareLabs Sweden gives your customers a seamless digital queuing experience.
           </p>
           <div className="mt-8 flex gap-4">
             <Link
@@ -96,8 +100,17 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t border-gray-100 py-8">
-        <div className="mx-auto max-w-6xl px-6 text-center text-sm text-gray-400">
-          QueueFlow &mdash; Digital Queue Management
+        <div className="mx-auto max-w-6xl px-6 text-center">
+          <Image
+            src="/carelabs-logo.svg"
+            alt="CareLabs"
+            width={110}
+            height={18}
+            className="mx-auto mb-2 opacity-40"
+          />
+          <p className="text-sm text-gray-400">
+            QueueFlow &mdash; A digital queue management service by CareLabs Sweden
+          </p>
         </div>
       </footer>
     </div>

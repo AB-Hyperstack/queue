@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
+import Image from 'next/image';
 import { createClient } from '@/lib/supabase/client';
 import { useRealtimeTickets } from '@/lib/hooks/useRealtimeTickets';
 import { requestNotificationPermission, subscriptionToJSON } from '@/lib/utils/push';
@@ -116,12 +117,8 @@ export default function TrackPage() {
         <div className="mx-auto max-w-lg px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-600">
-                <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
-                </svg>
-              </div>
-              <span className="font-bold text-gray-900">QueueFlow</span>
+              <Image src="/carelabs-logo.svg" alt="CareLabs" width={110} height={18} />
+              <span className="text-xs font-medium text-gray-400 border-l border-gray-200 pl-2">QueueFlow</span>
             </div>
             <div className="flex items-center gap-2">
               <div className={`h-2 w-2 rounded-full ${ticket.status === 'cancelled' || ticket.status === 'no_show' ? 'bg-red-400' : 'bg-green-400'}`} />

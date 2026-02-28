@@ -119,7 +119,7 @@ export default function KioskPage() {
           </div>
         </div>
         <div className="text-right">
-          <p className="text-sm text-gray-400">QueueFlow Kiosk</p>
+          <p className="text-sm text-gray-400">QueueFlow Kiosk &mdash; by CareLabs Sweden</p>
         </div>
       </header>
 

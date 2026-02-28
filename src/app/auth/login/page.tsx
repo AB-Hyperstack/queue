@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 import { createClient } from '@/lib/supabase/client';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
@@ -54,11 +55,14 @@ function LoginForm() {
     <div className="w-full max-w-sm">
       {/* Logo */}
       <div className="mb-8 text-center">
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-teal-600">
-          <svg className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
-          </svg>
-        </div>
+        <Image
+          src="/carelabs-logo.svg"
+          alt="CareLabs"
+          width={160}
+          height={26}
+          className="mx-auto"
+        />
+        <p className="mt-2 text-xs text-gray-400">QueueFlow</p>
         <h1 className="mt-4 text-xl font-bold text-gray-900">
           {mode === 'login' ? 'Sign in to QueueFlow' : 'Create your account'}
         </h1>

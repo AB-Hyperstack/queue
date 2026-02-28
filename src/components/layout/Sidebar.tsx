@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 const navItems = [
@@ -41,12 +42,13 @@ export default function Sidebar() {
     <aside className="flex h-screen w-64 flex-col border-r border-gray-200 bg-white">
       {/* Logo */}
       <div className="flex h-16 items-center gap-2 border-b border-gray-100 px-6">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-600">
-          <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
-          </svg>
-        </div>
-        <span className="text-lg font-bold text-gray-900">QueueFlow</span>
+        <Image
+          src="/carelabs-logo.svg"
+          alt="CareLabs"
+          width={120}
+          height={20}
+        />
+        <span className="text-xs font-medium text-gray-400 border-l border-gray-200 pl-2">QueueFlow</span>
       </div>
 
       {/* Navigation */}
@@ -72,7 +74,7 @@ export default function Sidebar() {
 
       {/* Footer */}
       <div className="border-t border-gray-100 p-4">
-        <p className="text-xs text-gray-400">QueueFlow v1.0</p>
+        <p className="text-xs text-gray-400">QueueFlow by CareLabs Sweden</p>
       </div>
     </aside>
   );

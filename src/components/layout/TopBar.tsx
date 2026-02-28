@@ -7,9 +7,10 @@ import Button from '@/components/ui/Button';
 interface TopBarProps {
   title: string;
   subtitle?: string;
+  connected?: boolean;
 }
 
-export default function TopBar({ title, subtitle }: TopBarProps) {
+export default function TopBar({ title, subtitle, connected }: TopBarProps) {
   const router = useRouter();
   const supabase = createClient();
 
@@ -24,9 +25,19 @@ export default function TopBar({ title, subtitle }: TopBarProps) {
         <h1 className="text-xl font-bold text-gray-900">{title}</h1>
         {subtitle && <p className="text-sm text-gray-500">{subtitle}</p>}
       </div>
-      <Button variant="ghost" size="sm" onClick={handleSignOut}>
-        Sign out
-      </Button>
+      <div className="flex items-center gap-4">
+        {connected !== undefined && (
+          <div className="flex items-center gap-2 text-sm">
+            <div className={`h-2 w-2 rounded-full ${connected ? 'bg-green-500' : 'bg-amber-400 animate-pulse'}`} />
+            <span className={connected ? 'text-green-600' : 'text-amber-500'}>
+              {connected ? 'Live' : 'Connecting…'}
+            </span>
+          </div>
+        )}
+        <Button variant="ghost" size="sm" onClick={handleSignOut}>
+          Sign out
+        </Button>
+      </div>
     </header>
   );
 }

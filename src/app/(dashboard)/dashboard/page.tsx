@@ -74,11 +74,12 @@ export default function DashboardPage() {
       <TopBar
         title="Queue Management"
         subtitle={org?.name}
+        connected={connected}
       />
 
       <div className="flex-1 overflow-auto p-6">
         {/* Stats */}
-        <div className="grid grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-3 gap-4 mb-6">
           <StatBlock
             label="Waiting"
             value={waitingTickets.length}
@@ -106,16 +107,6 @@ export default function DashboardPage() {
             icon={
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75z" />
-              </svg>
-            }
-          />
-          <StatBlock
-            label="Connection"
-            value={connected ? 'Live' : 'Connecting...'}
-            color={connected ? 'green' : 'red'}
-            icon={
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9.348 14.652a3.75 3.75 0 010-5.304m5.304 0a3.75 3.75 0 010 5.304m-7.425 2.121a6.75 6.75 0 010-9.546m9.546 0a6.75 6.75 0 010 9.546M5.106 18.894c-3.808-3.807-3.808-9.98 0-13.788m13.788 0c3.808 3.807 3.808 9.98 0 13.788" />
               </svg>
             }
           />

@@ -1,57 +1,79 @@
 'use client';
 
+import { useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import type { Ticket } from '@/lib/types/database';
 
 export function useQueue() {
-  const supabase = createClient();
+  const callNext = useCallback(async (ticket: Ticket) => {
+    const supabase = createClient();
 
-  const callNext = async (ticket: Ticket) => {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('tickets')
       .update({
         status: 'serving',
         called_at: new Date().toISOString(),
       })
-      .eq('id', ticket.id);
+      .eq('id', ticket.id)
+      .select()
+      .single();
 
-    if (!error) {
-      // Log analytics event
-      await supabase.from('analytics_logs').insert({
-        org_id: ticket.org_id,
-        queue_id: ticket.queue_id,
-        event_type: 'call',
-        ticket_id: ticket.id,
-        wait_duration_sec: Math.floor(
-          (Date.now() - new Date(ticket.joined_at).getTime()) / 1000
-        ),
-      });
-
-      // Trigger push notification
-      try {
-        await fetch('/api/push', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ticketId: ticket.id }),
-        });
-      } catch {
-        // Push notification is best-effort
-      }
+    if (error) {
+      console.error('callNext update failed:', error);
+      return { error };
     }
-    return { error };
-  };
 
-  const completeService = async (ticket: Ticket) => {
-    const { error } = await supabase
+    if (!data) {
+      console.error('callNext: no row updated — possible RLS issue');
+      return { error: new Error('Update failed — no row updated') };
+    }
+
+    // Log analytics event (best-effort, don't block on failure)
+    supabase.from('analytics_logs').insert({
+      org_id: ticket.org_id,
+      queue_id: ticket.queue_id,
+      event_type: 'call',
+      ticket_id: ticket.id,
+      wait_duration_sec: Math.floor(
+        (Date.now() - new Date(ticket.joined_at).getTime()) / 1000
+      ),
+    }).then(() => {});
+
+    // Trigger push notification (best-effort)
+    fetch('/api/push', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ticketId: ticket.id }),
+    }).catch(() => {});
+
+    return { error: null };
+  }, []);
+
+  const completeService = useCallback(async (ticket: Ticket) => {
+    const supabase = createClient();
+
+    const { data, error } = await supabase
       .from('tickets')
       .update({
         status: 'served',
         served_at: new Date().toISOString(),
       })
-      .eq('id', ticket.id);
+      .eq('id', ticket.id)
+      .select()
+      .single();
 
-    if (!error && ticket.called_at) {
-      await supabase.from('analytics_logs').insert({
+    if (error) {
+      console.error('completeService failed:', error);
+      return { error };
+    }
+
+    if (!data) {
+      return { error: new Error('Update failed — no row updated') };
+    }
+
+    // Analytics + recalculate positions (best-effort)
+    if (ticket.called_at) {
+      supabase.from('analytics_logs').insert({
         org_id: ticket.org_id,
         queue_id: ticket.queue_id,
         event_type: 'serve',
@@ -59,33 +81,48 @@ export function useQueue() {
         service_duration_sec: Math.floor(
           (Date.now() - new Date(ticket.called_at).getTime()) / 1000
         ),
-      });
-
-      // Recalculate positions for remaining waiting tickets
-      await recalculatePositions(ticket.queue_id);
+      }).then(() => {});
     }
-    return { error };
-  };
 
-  const markNoShow = async (ticket: Ticket) => {
-    const { error } = await supabase
+    recalculatePositions(ticket.queue_id);
+
+    return { error: null };
+  }, []);
+
+  const markNoShow = useCallback(async (ticket: Ticket) => {
+    const supabase = createClient();
+
+    const { data, error } = await supabase
       .from('tickets')
       .update({ status: 'no_show' })
-      .eq('id', ticket.id);
+      .eq('id', ticket.id)
+      .select()
+      .single();
 
-    if (!error) {
-      await supabase.from('analytics_logs').insert({
-        org_id: ticket.org_id,
-        queue_id: ticket.queue_id,
-        event_type: 'no_show',
-        ticket_id: ticket.id,
-      });
-      await recalculatePositions(ticket.queue_id);
+    if (error) {
+      console.error('markNoShow failed:', error);
+      return { error };
     }
-    return { error };
-  };
 
-  const snoozeTicket = async (ticket: Ticket) => {
+    if (!data) {
+      return { error: new Error('Update failed — no row updated') };
+    }
+
+    supabase.from('analytics_logs').insert({
+      org_id: ticket.org_id,
+      queue_id: ticket.queue_id,
+      event_type: 'no_show',
+      ticket_id: ticket.id,
+    }).then(() => {});
+
+    recalculatePositions(ticket.queue_id);
+
+    return { error: null };
+  }, []);
+
+  const snoozeTicket = useCallback(async (ticket: Ticket) => {
+    const supabase = createClient();
+
     // Move to end of queue
     const { data: lastTicket } = await supabase
       .from('tickets')
@@ -98,23 +135,35 @@ export function useQueue() {
 
     const newPosition = (lastTicket?.position ?? 0) + 1;
 
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('tickets')
       .update({ position: newPosition })
-      .eq('id', ticket.id);
+      .eq('id', ticket.id)
+      .select()
+      .single();
 
-    if (!error) {
-      await recalculatePositions(ticket.queue_id);
+    if (error) {
+      console.error('snoozeTicket failed:', error);
+      return { error };
     }
-    return { error };
-  };
 
-  const joinQueue = async (
+    if (!data) {
+      return { error: new Error('Update failed — no row updated') };
+    }
+
+    recalculatePositions(ticket.queue_id);
+
+    return { error: null };
+  }, []);
+
+  const joinQueue = useCallback(async (
     queueId: string,
     orgId: string,
     customerName?: string,
     customerPhone?: string
   ) => {
+    const supabase = createClient();
+
     // Get next ticket number for today
     const today = new Date().toISOString().split('T')[0];
     const { count } = await supabase
@@ -160,36 +209,38 @@ export function useQueue() {
       .single();
 
     if (!error && data) {
-      await supabase.from('analytics_logs').insert({
+      supabase.from('analytics_logs').insert({
         org_id: orgId,
         queue_id: queueId,
         event_type: 'join',
         ticket_id: data.id,
-      });
+      }).then(() => {});
     }
 
     return { data: data as Ticket | null, error };
-  };
-
-  const recalculatePositions = async (queueId: string) => {
-    const { data: waitingTickets } = await supabase
-      .from('tickets')
-      .select('id, position')
-      .eq('queue_id', queueId)
-      .eq('status', 'waiting')
-      .order('position', { ascending: true });
-
-    if (waitingTickets) {
-      for (let i = 0; i < waitingTickets.length; i++) {
-        if (waitingTickets[i].position !== i + 1) {
-          await supabase
-            .from('tickets')
-            .update({ position: i + 1 })
-            .eq('id', waitingTickets[i].id);
-        }
-      }
-    }
-  };
+  }, []);
 
   return { callNext, completeService, markNoShow, snoozeTicket, joinQueue };
+}
+
+async function recalculatePositions(queueId: string) {
+  const supabase = createClient();
+
+  const { data: waitingTickets } = await supabase
+    .from('tickets')
+    .select('id, position')
+    .eq('queue_id', queueId)
+    .eq('status', 'waiting')
+    .order('position', { ascending: true });
+
+  if (waitingTickets) {
+    for (let i = 0; i < waitingTickets.length; i++) {
+      if (waitingTickets[i].position !== i + 1) {
+        await supabase
+          .from('tickets')
+          .update({ position: i + 1 })
+          .eq('id', waitingTickets[i].id);
+      }
+    }
+  }
 }

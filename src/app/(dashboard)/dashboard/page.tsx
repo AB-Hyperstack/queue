@@ -153,7 +153,7 @@ export default function DashboardPage() {
                     <TicketRow
                       key={t.id}
                       ticket={t}
-                      onComplete={() => completeService(t)}
+                      onComplete={async () => completeService(t)}
                     />
                   ))}
                 </>
@@ -167,9 +167,9 @@ export default function DashboardPage() {
                     <TicketRow
                       key={t.id}
                       ticket={t}
-                      onCall={() => callNext(t)}
-                      onSnooze={() => snoozeTicket(t)}
-                      onNoShow={() => markNoShow(t)}
+                      onCall={async () => callNext(t)}
+                      onSnooze={async () => snoozeTicket(t)}
+                      onNoShow={async () => markNoShow(t)}
                     />
                   ))}
                 </>

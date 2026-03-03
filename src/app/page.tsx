@@ -50,6 +50,12 @@ export default function Home() {
             >
               Try demo
             </Link>
+            <Link
+              href="/kiosk/demo"
+              className="rounded-lg border border-gray-300 px-6 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              Kiosk mode
+            </Link>
           </div>
         </div>
       </section>

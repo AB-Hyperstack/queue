@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams } from 'next/navigation';
+import { QRCodeSVG } from 'qrcode.react';
 import { createClient } from '@/lib/supabase/client';
 import { useQueue } from '@/lib/hooks/useQueue';
 import { useRealtimeTickets } from '@/lib/hooks/useRealtimeTickets';
@@ -15,9 +16,13 @@ export default function KioskPage() {
   const [queues, setQueues] = useState<Queue[]>([]);
   const [loading, setLoading] = useState(true);
   const [ticketCode, setTicketCode] = useState<string | null>(null);
+  const [ticketId, setTicketId] = useState<string | null>(null);
   const [showTicket, setShowTicket] = useState(false);
+  const dismissTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { joinQueue } = useQueue();
+
+  const appUrl = typeof window !== 'undefined' ? window.location.origin : '';
 
   useEffect(() => {
     async function load() {
@@ -69,13 +74,16 @@ export default function KioskPage() {
     const { data } = await joinQueue(queue.id, org.id);
     if (data) {
       setTicketCode(data.display_code);
+      setTicketId(data.id);
       setShowTicket(true);
 
-      // Auto-dismiss after 5 seconds
-      setTimeout(() => {
+      // Auto-dismiss after 12 seconds (longer to allow QR scanning)
+      if (dismissTimerRef.current) clearTimeout(dismissTimerRef.current);
+      dismissTimerRef.current = setTimeout(() => {
         setShowTicket(false);
         setTicketCode(null);
-      }, 5000);
+        setTicketId(null);
+      }, 12000);
     }
   };
 
@@ -88,14 +96,31 @@ export default function KioskPage() {
   }
 
   // Ticket confirmation overlay
-  if (showTicket) {
+  if (showTicket && ticketId) {
+    const trackUrl = `${appUrl}/track/${ticketId}`;
+
     return (
       <div className="flex h-screen flex-col items-center justify-center bg-teal-600 kiosk-mode">
         <div className="text-center text-white">
           <p className="text-2xl font-medium mb-4">Your number is</p>
-          <p className="text-9xl font-bold tracking-wider mb-8">{ticketCode}</p>
-          <p className="text-xl opacity-80">Please wait to be called</p>
-          <div className="mt-12 animate-pulse">
+          <p className="text-9xl font-bold tracking-wider mb-6">{ticketCode}</p>
+          <p className="text-xl opacity-80 mb-10">Please wait to be called</p>
+
+          {/* QR Code for mobile tracking */}
+          <div className="inline-flex flex-col items-center bg-white rounded-2xl p-6 shadow-lg">
+            <QRCodeSVG
+              value={trackUrl}
+              size={180}
+              fgColor="#0f172a"
+              bgColor="#ffffff"
+              level="M"
+            />
+            <p className="mt-4 text-sm font-medium text-gray-700">
+              Scan to track your place in the queue
+            </p>
+          </div>
+
+          <div className="mt-8 animate-pulse">
             <p className="text-sm opacity-60">This screen will close automatically</p>
           </div>
         </div>

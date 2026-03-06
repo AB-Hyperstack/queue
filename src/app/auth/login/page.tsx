@@ -12,12 +12,13 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get('redirect') || '/dashboard';
+  const initialMode = searchParams.get('mode') === 'signup' ? 'signup' : 'login';
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [mode, setMode] = useState<'login' | 'signup'>('login');
+  const [mode, setMode] = useState<'login' | 'signup'>(initialMode);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +49,7 @@ function LoginForm() {
       }
     }
 
-    router.push(redirect);
+    router.push(mode === 'signup' ? '/onboarding' : redirect);
   };
 
   return (

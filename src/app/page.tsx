@@ -39,10 +39,10 @@ export default function Home() {
           </p>
           <div className="mt-8 flex gap-4">
             <Link
-              href="/auth/login"
+              href="/auth/login?mode=signup"
               className="rounded-lg bg-teal-600 px-6 py-3 text-sm font-medium text-white hover:bg-teal-700 transition-colors"
             >
-              Get started
+              Start free trial
             </Link>
             <Link
               href="/join/demo"
@@ -99,6 +99,97 @@ export default function Home() {
               <p className="mt-2 text-sm text-gray-600 leading-relaxed">
                 Set up a tablet at your entrance for walk-in customers to take a number with a single tap.
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="pricing" className="border-t border-gray-100">
+        <div className="mx-auto max-w-6xl px-6 py-20">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl font-bold text-gray-900">Simple, transparent pricing</h2>
+            <p className="mt-3 text-gray-600">Start free for 14 days. No credit card required.</p>
+          </div>
+
+          <div className="mx-auto max-w-3xl grid gap-6 md:grid-cols-2">
+            {/* Monthly */}
+            <div className="rounded-xl bg-white p-8 shadow-sm border border-gray-100">
+              <h3 className="font-semibold text-gray-900">Månadsvis</h3>
+              <div className="mt-4">
+                <span className="text-4xl font-bold text-gray-900">500 kr</span>
+                <span className="text-gray-500">/månad</span>
+              </div>
+              <p className="mt-2 text-sm text-gray-500">Faktureras månadsvis, avsluta när du vill</p>
+              <ul className="mt-6 space-y-3 text-sm text-gray-600">
+                <li className="flex gap-2">
+                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  Unlimited queues
+                </li>
+                <li className="flex gap-2">
+                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  Unlimited staff members
+                </li>
+                <li className="flex gap-2">
+                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  Real-time analytics
+                </li>
+                <li className="flex gap-2">
+                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  QR codes &amp; kiosk mode
+                </li>
+                <li className="flex gap-2">
+                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  Push notifications
+                </li>
+              </ul>
+              <Link
+                href="/auth/login?mode=signup"
+                className="mt-8 block rounded-lg border border-gray-300 px-6 py-3 text-center text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                Start free trial
+              </Link>
+            </div>
+
+            {/* Yearly — highlighted */}
+            <div className="rounded-xl bg-white p-8 shadow-sm border-2 border-teal-600 relative">
+              <div className="absolute -top-3 right-6 bg-teal-600 text-white text-xs font-medium px-3 py-1 rounded-full">
+                Spara 17%
+              </div>
+              <h3 className="font-semibold text-gray-900">Årsvis</h3>
+              <div className="mt-4">
+                <span className="text-4xl font-bold text-gray-900">5 000 kr</span>
+                <span className="text-gray-500">/år</span>
+              </div>
+              <p className="mt-2 text-sm text-gray-500">417 kr/månad, faktureras årsvis</p>
+              <ul className="mt-6 space-y-3 text-sm text-gray-600">
+                <li className="flex gap-2">
+                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  Unlimited queues
+                </li>
+                <li className="flex gap-2">
+                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  Unlimited staff members
+                </li>
+                <li className="flex gap-2">
+                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  Real-time analytics
+                </li>
+                <li className="flex gap-2">
+                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  QR codes &amp; kiosk mode
+                </li>
+                <li className="flex gap-2">
+                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  Push notifications
+                </li>
+              </ul>
+              <Link
+                href="/auth/login?mode=signup"
+                className="mt-8 block rounded-lg bg-teal-600 px-6 py-3 text-center text-sm font-medium text-white hover:bg-teal-700 transition-colors"
+              >
+                Start free trial
+              </Link>
             </div>
           </div>
         </div>

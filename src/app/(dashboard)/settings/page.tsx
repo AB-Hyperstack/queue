@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import type { Organization, Queue, StaffMember } from '@/lib/types/database';
 import { QRCodeSVG } from 'qrcode.react';
@@ -8,6 +9,8 @@ import TopBar from '@/components/layout/TopBar';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
+import { useSubscription } from '@/lib/hooks/useSubscription';
+import { PLANS } from '@/lib/billing/constants';
 
 export default function SettingsPage() {
   const [org, setOrg] = useState<Organization | null>(null);
@@ -16,6 +19,7 @@ export default function SettingsPage() {
   const [newQueueName, setNewQueueName] = useState('');
   const [creating, setCreating] = useState(false);
   const qrRef = useRef<HTMLDivElement>(null);
+  const { isTrialing, isActive, isExpired, daysRemaining, showWarning, subscription, loading: subLoading } = useSubscription();
 
   useEffect(() => {
     async function load() {
@@ -107,6 +111,80 @@ export default function SettingsPage() {
       <TopBar title="Settings" subtitle={org?.name} />
 
       <div className="flex-1 overflow-auto p-6 max-w-4xl">
+        {/* Plan & Billing */}
+        {!subLoading && subscription && (
+          <>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">Plan & Billing</h2>
+            <Card className="mb-8">
+              <div className="flex items-center justify-between">
+                <div>
+                  {isTrialing && (
+                    <>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                          showWarning ? 'bg-amber-50 text-amber-700' : 'bg-teal-50 text-teal-700'
+                        }`}>
+                          Free trial
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600">
+                        {daysRemaining} day{daysRemaining !== 1 ? 's' : ''} remaining in your free trial.
+                        {showWarning && ' Upgrade now to keep access.'}
+                      </p>
+                    </>
+                  )}
+                  {isActive && (
+                    <>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="inline-flex items-center rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-700">
+                          Active
+                        </span>
+                        <span className="text-sm font-medium text-gray-900">
+                          {subscription.plan === 'yearly' ? PLANS.yearly.name : PLANS.monthly.name} plan
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600">
+                        {subscription.plan === 'yearly' ? PLANS.yearly.priceDisplay + '/year' : PLANS.monthly.priceDisplay + '/month'}
+                      </p>
+                    </>
+                  )}
+                  {isExpired && (
+                    <>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="inline-flex items-center rounded-full bg-red-50 px-2.5 py-0.5 text-xs font-medium text-red-700">
+                          Expired
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600">
+                        Your trial has ended. Upgrade to continue using QueueFlow.
+                      </p>
+                    </>
+                  )}
+                </div>
+                {isActive ? (
+                  <button
+                    onClick={async () => {
+                      const res = await fetch('/api/billing/portal', { method: 'POST' });
+                      const data = await res.json();
+                      if (data.url) window.location.href = data.url;
+                    }}
+                    className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    Manage subscription
+                  </button>
+                ) : (
+                  <Link
+                    href="/billing"
+                    className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    Upgrade
+                  </Link>
+                )}
+              </div>
+            </Card>
+          </>
+        )}
+
         {/* QR Codes */}
         <h2 className="text-lg font-semibold text-gray-900 mb-4">QR Codes</h2>
         <div className="grid gap-4 md:grid-cols-2 mb-8">

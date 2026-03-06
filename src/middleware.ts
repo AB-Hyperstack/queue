@@ -27,15 +27,72 @@ export async function middleware(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  // Protect dashboard routes
-  if (request.nextUrl.pathname.startsWith('/dashboard') ||
-      request.nextUrl.pathname.startsWith('/analytics') ||
-      request.nextUrl.pathname.startsWith('/settings')) {
+  const pathname = request.nextUrl.pathname;
+
+  // Admin routes — separate auth logic
+  if (pathname.startsWith('/admin')) {
     if (!user) {
       const url = request.nextUrl.clone();
       url.pathname = '/auth/login';
-      url.searchParams.set('redirect', request.nextUrl.pathname);
+      url.searchParams.set('redirect', pathname);
       return NextResponse.redirect(url);
+    }
+    if (user.email !== process.env.ADMIN_EMAIL) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/dashboard';
+      return NextResponse.redirect(url);
+    }
+    return supabaseResponse;
+  }
+
+  const isProtectedRoute = pathname.startsWith('/dashboard') ||
+    pathname.startsWith('/analytics') ||
+    pathname.startsWith('/settings');
+  const isOnboarding = pathname.startsWith('/onboarding');
+  const isBilling = pathname.startsWith('/billing');
+
+  // Not authenticated → login
+  if ((isProtectedRoute || isOnboarding || isBilling) && !user) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/auth/login';
+    url.searchParams.set('redirect', pathname);
+    return NextResponse.redirect(url);
+  }
+
+  // Authenticated → check onboarding status
+  if (user && (isProtectedRoute || isOnboarding || isBilling)) {
+    const { data: staff } = await supabase
+      .from('staff_members')
+      .select('id')
+      .eq('user_id', user.id)
+      .limit(1)
+      .maybeSingle();
+
+    const hasOrg = !!staff;
+
+    // No org yet → must onboard first
+    if ((isProtectedRoute || isBilling) && !hasOrg) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/onboarding';
+      return NextResponse.redirect(url);
+    }
+
+    // Already has org → skip onboarding
+    if (isOnboarding && hasOrg) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/dashboard';
+      return NextResponse.redirect(url);
+    }
+
+    // Has org → check subscription status (skip for /billing itself)
+    if (isProtectedRoute && hasOrg) {
+      const { data: subStatus } = await supabase.rpc('get_subscription_status');
+
+      if (subStatus && (subStatus as { status: string }).status === 'expired') {
+        const url = request.nextUrl.clone();
+        url.pathname = '/billing';
+        return NextResponse.redirect(url);
+      }
     }
   }
 
@@ -43,5 +100,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/analytics/:path*', '/settings/:path*'],
+  matcher: ['/dashboard/:path*', '/analytics/:path*', '/settings/:path*', '/onboarding/:path*', '/billing/:path*', '/admin/:path*'],
 };

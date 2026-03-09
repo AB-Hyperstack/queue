@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import type { Queue } from '@/lib/types/database';
 import QueueCard from './QueueCard';
 
@@ -12,10 +13,11 @@ interface QueueSelectorProps {
 
 export default function QueueSelector({ queues, waitingCounts, onSelect }: QueueSelectorProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const t = useTranslations('Join');
 
   return (
     <div className="space-y-3">
-      <h2 className="text-lg font-semibold text-gray-900">Select a queue</h2>
+      <h2 className="text-lg font-semibold text-gray-900">{t('selectAQueue')}</h2>
       <div className="grid gap-3">
         {queues.map((queue) => (
           <QueueCard

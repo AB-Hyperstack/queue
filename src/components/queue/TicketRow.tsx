@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import Badge from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
 import type { Ticket } from '@/lib/types/database';
@@ -15,6 +16,7 @@ interface TicketRowProps {
 }
 
 export default function TicketRow({ ticket, onCall, onComplete, onNoShow, onSnooze }: TicketRowProps) {
+  const t = useTranslations('Dashboard');
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [error, setError] = useState('');
 
@@ -27,12 +29,12 @@ export default function TicketRow({ ticket, onCall, onComplete, onNoShow, onSnoo
     try {
       const result = await fn();
       if (result && 'error' in result && result.error) {
-        setError(`${action} failed`);
+        setError(t('actionFailed', { action }));
         setActionLoading(null);
       }
       // On success, don't clear loading — the row will unmount/re-render via realtime
     } catch {
-      setError(`${action} failed`);
+      setError(t('actionFailed', { action }));
       setActionLoading(null);
     }
   };
@@ -50,7 +52,7 @@ export default function TicketRow({ ticket, onCall, onComplete, onNoShow, onSnoo
             <p className="font-medium text-gray-900">
               {ticket.customer_name || 'Guest'}
             </p>
-            <p className="text-xs text-gray-500">Waiting {waitTime}</p>
+            <p className="text-xs text-gray-500">{t('waitingTime', { time: waitTime })}</p>
           </div>
         </div>
 
@@ -65,7 +67,7 @@ export default function TicketRow({ ticket, onCall, onComplete, onNoShow, onSnoo
                 disabled={isDisabled && actionLoading !== 'Call'}
                 onClick={() => handleAction('Call', onCall)}
               >
-                Call
+                {t('callButton')}
               </Button>
               <Button
                 size="sm"
@@ -74,7 +76,7 @@ export default function TicketRow({ ticket, onCall, onComplete, onNoShow, onSnoo
                 disabled={isDisabled && actionLoading !== 'Snooze'}
                 onClick={() => handleAction('Snooze', onSnooze)}
               >
-                Snooze
+                {t('snoozeButton')}
               </Button>
               <Button
                 size="sm"
@@ -83,7 +85,7 @@ export default function TicketRow({ ticket, onCall, onComplete, onNoShow, onSnoo
                 disabled={isDisabled && actionLoading !== 'No Show'}
                 onClick={() => handleAction('No Show', onNoShow)}
               >
-                No Show
+                {t('noShowButton')}
               </Button>
             </div>
           )}
@@ -96,14 +98,14 @@ export default function TicketRow({ ticket, onCall, onComplete, onNoShow, onSnoo
               disabled={isDisabled && actionLoading !== 'Complete'}
               onClick={() => handleAction('Complete', onComplete)}
             >
-              Complete
+              {t('completeButton')}
             </Button>
           )}
         </div>
       </div>
 
       {error && (
-        <p className="mt-2 text-xs text-red-500 text-right">{error} — please try again</p>
+        <p className="mt-2 text-xs text-red-500 text-right">{error}</p>
       )}
     </div>
   );

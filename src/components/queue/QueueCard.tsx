@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import type { Queue } from '@/lib/types/database';
 
 interface QueueCardProps {
@@ -10,6 +11,8 @@ interface QueueCardProps {
 }
 
 export default function QueueCard({ queue, waitingCount, onSelect, selected }: QueueCardProps) {
+  const t = useTranslations('Join');
+
   return (
     <button
       onClick={onSelect}
@@ -28,10 +31,10 @@ export default function QueueCard({ queue, waitingCount, onSelect, selected }: Q
       </div>
       <div className="mt-3 flex items-center justify-between">
         <span className="text-sm text-gray-500">
-          {waitingCount} {waitingCount === 1 ? 'person' : 'people'} waiting
+          {t('personWaiting', { count: waitingCount })}
         </span>
         <span className="text-sm text-gray-400">
-          ~{waitingCount * queue.avg_service_time_min} min
+          {t('estimatedWait', { minutes: waitingCount * queue.avg_service_time_min })}
         </span>
       </div>
     </button>

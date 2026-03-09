@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import type { Ticket, Queue } from '@/lib/types/database';
 
 interface TicketTrackerProps {
@@ -9,6 +10,7 @@ interface TicketTrackerProps {
 }
 
 export default function TicketTracker({ ticket, queue, aheadCount }: TicketTrackerProps) {
+  const t = useTranslations('Track');
   const estimatedWait = aheadCount * queue.avg_service_time_min;
   const isBeingServed = ticket.status === 'serving';
   const isCompleted = ticket.status === 'served';
@@ -49,7 +51,7 @@ export default function TicketTracker({ ticket, queue, aheadCount }: TicketTrack
           <span className="text-4xl font-bold text-gray-900">
             {ticket.display_code}
           </span>
-          <span className="text-sm text-gray-500 mt-1">Your number</span>
+          <span className="text-sm text-gray-500 mt-1">{t('yourNumber')}</span>
         </div>
       </div>
 
@@ -57,7 +59,7 @@ export default function TicketTracker({ ticket, queue, aheadCount }: TicketTrack
       {isBeingServed && (
         <div className="rounded-full bg-green-100 px-4 py-2 mb-4">
           <p className="text-sm font-semibold text-green-700">
-            It&apos;s your turn!
+            {t('itsYourTurn')}
           </p>
         </div>
       )}
@@ -65,7 +67,7 @@ export default function TicketTracker({ ticket, queue, aheadCount }: TicketTrack
       {isCompleted && (
         <div className="rounded-full bg-gray-100 px-4 py-2 mb-4">
           <p className="text-sm font-semibold text-gray-600">
-            Completed
+            {t('completed')}
           </p>
         </div>
       )}
@@ -74,10 +76,10 @@ export default function TicketTracker({ ticket, queue, aheadCount }: TicketTrack
         <>
           <p className="text-5xl font-bold text-gray-900 mb-2">{aheadCount}</p>
           <p className="text-gray-500 mb-1">
-            {aheadCount === 0 ? "You're next!" : `${aheadCount === 1 ? 'person' : 'people'} ahead of you`}
+            {aheadCount === 0 ? t('youreNext') : t('personAhead', { count: aheadCount })}
           </p>
           <p className="text-sm text-gray-400">
-            Estimated wait: ~{estimatedWait} min
+            {t('estimatedWait', { minutes: estimatedWait })}
           </p>
         </>
       )}

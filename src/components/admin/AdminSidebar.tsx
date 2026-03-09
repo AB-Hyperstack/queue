@@ -1,13 +1,13 @@
 'use client';
 
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link, usePathname } from '@/i18n/navigation';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 
 const navItems = [
   {
     href: '/admin',
-    label: 'Overview',
+    labelKey: 'overview',
     exact: true,
     icon: (
       <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
@@ -17,7 +17,7 @@ const navItems = [
   },
   {
     href: '/admin/organizations',
-    label: 'Organizations',
+    labelKey: 'organizations',
     exact: false,
     icon: (
       <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
@@ -27,7 +27,7 @@ const navItems = [
   },
   {
     href: '/admin/revenue',
-    label: 'Revenue',
+    labelKey: 'revenue',
     exact: false,
     icon: (
       <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
@@ -38,6 +38,7 @@ const navItems = [
 ];
 
 export default function AdminSidebar() {
+  const t = useTranslations('AdminSidebar');
   const pathname = usePathname();
 
   return (
@@ -50,7 +51,7 @@ export default function AdminSidebar() {
           width={120}
           height={20}
         />
-        <span className="text-xs font-medium text-red-500 border-l border-gray-200 pl-2">Admin</span>
+        <span className="text-xs font-medium text-red-500 border-l border-gray-200 pl-2">{t('admin')}</span>
       </div>
 
       {/* Navigation */}
@@ -70,7 +71,7 @@ export default function AdminSidebar() {
               }`}
             >
               {item.icon}
-              {item.label}
+              {t(item.labelKey)}
             </Link>
           );
         })}
@@ -85,9 +86,9 @@ export default function AdminSidebar() {
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
           </svg>
-          Back to Dashboard
+          {t('backToDashboard')}
         </Link>
-        <p className="text-xs text-gray-400">QueueFlow Admin</p>
+        <p className="text-xs text-gray-400">{t('branding')}</p>
       </div>
     </aside>
   );

@@ -1,8 +1,10 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 import Button from '@/components/ui/Button';
+import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
 
 interface TopBarProps {
   title: string;
@@ -11,6 +13,7 @@ interface TopBarProps {
 }
 
 export default function TopBar({ title, subtitle, connected }: TopBarProps) {
+  const t = useTranslations('Common');
   const router = useRouter();
   const supabase = createClient();
 
@@ -30,12 +33,13 @@ export default function TopBar({ title, subtitle, connected }: TopBarProps) {
           <div className="flex items-center gap-2 text-sm">
             <div className={`h-2 w-2 rounded-full ${connected ? 'bg-green-500' : 'bg-amber-400 animate-pulse'}`} />
             <span className={connected ? 'text-green-600' : 'text-amber-500'}>
-              {connected ? 'Live' : 'Connecting…'}
+              {connected ? t('live') : t('connecting')}
             </span>
           </div>
         )}
+        <LanguageSwitcher />
         <Button variant="ghost" size="sm" onClick={handleSignOut}>
-          Sign out
+          {t('signOut')}
         </Button>
       </div>
     </header>

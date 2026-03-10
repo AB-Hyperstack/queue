@@ -58,6 +58,10 @@
     "passwordPlaceholder": "Enter your password",
     "signInButton": "Sign in",
     "signUpButton": "Create account",
+    "signInWithGoogle": "Sign in with Google",
+    "or": "or",
+    "signInTab": "Sign in",
+    "signUpTab": "Create account",
     "noAccount": "Don't have an account? Sign up",
     "hasAccount": "Already have an account? Sign in"
   },
@@ -120,7 +124,9 @@
     "snoozeButton": "Snooze",
     "noShowButton": "No Show",
     "completeButton": "Complete",
-    "actionFailed": "{action} failed — please try again"
+    "actionFailed": "{action} failed — please try again",
+    "calledNotNotified": "Called {code} — customer was not notified (no push subscription)",
+    "calledAndNotified": "Called {code} — notification sent"
   },
   "Analytics": {
     "title": "Analytics",
@@ -300,6 +306,20 @@
     "projectedAnnual": "Projected Annual",
     "avgRevenuePerOrg": "Avg Revenue per Org",
     "totalPaying": "Total Paying"
+  },
+  "Feedback": {
+    "rateExperience": "How was your experience?",
+    "commentPlaceholder": "Any additional comments? (optional)",
+    "submit": "Submit feedback",
+    "submitting": "Submitting...",
+    "thankYou": "Thank you for your feedback!",
+    "thankYouDesc": "Your rating helps us improve our service.",
+    "avgRating": "Avg Rating",
+    "totalFeedback": "Total Feedback",
+    "ratingDistribution": "Rating Distribution",
+    "recentComments": "Recent Comments",
+    "noFeedbackYet": "No feedback received yet",
+    "stars": "{count, plural, one {star} other {stars}}"
   },
   "PlanFeatures": {
     "unlimitedQueues": "Unlimited queues",

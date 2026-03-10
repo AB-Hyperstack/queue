@@ -58,6 +58,10 @@
     "passwordPlaceholder": "Ange ditt lösenord",
     "signInButton": "Logga in",
     "signUpButton": "Skapa konto",
+    "signInWithGoogle": "Logga in med Google",
+    "or": "eller",
+    "signInTab": "Logga in",
+    "signUpTab": "Skapa konto",
     "noAccount": "Har du inget konto? Registrera dig",
     "hasAccount": "Har du redan ett konto? Logga in"
   },
@@ -120,7 +124,9 @@
     "snoozeButton": "Snooza",
     "noShowButton": "Utebliven",
     "completeButton": "Klar",
-    "actionFailed": "{action} misslyckades — försök igen"
+    "actionFailed": "{action} misslyckades — försök igen",
+    "calledNotNotified": "Kallade {code} — kunden notifierades inte (ingen push-prenumeration)",
+    "calledAndNotified": "Kallade {code} — notifiering skickad"
   },
   "Analytics": {
     "title": "Analys",
@@ -300,6 +306,20 @@
     "projectedAnnual": "Projicerad årsintäkt",
     "avgRevenuePerOrg": "Snittintäkt per org.",
     "totalPaying": "Totalt betalande"
+  },
+  "Feedback": {
+    "rateExperience": "Hur var din upplevelse?",
+    "commentPlaceholder": "Ytterligare kommentarer? (valfritt)",
+    "submit": "Skicka feedback",
+    "submitting": "Skickar...",
+    "thankYou": "Tack för din feedback!",
+    "thankYouDesc": "Ditt betyg hjälper oss att förbättra vår service.",
+    "avgRating": "Snittbetyg",
+    "totalFeedback": "Total feedback",
+    "ratingDistribution": "Betygsfördelning",
+    "recentComments": "Senaste kommentarer",
+    "noFeedbackYet": "Ingen feedback mottagen ännu",
+    "stars": "{count, plural, one {stjärna} other {stjärnor}}"
   },
   "PlanFeatures": {
     "unlimitedQueues": "Obegränsade köer",

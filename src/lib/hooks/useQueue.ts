@@ -39,14 +39,21 @@ export function useQueue() {
       ),
     }).then(() => {});
 
-    // Trigger push notification (best-effort)
-    fetch('/api/push', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ticketId: ticket.id }),
-    }).catch(() => {});
+    // Trigger push notification — await so we can surface failures
+    let notified = false;
+    try {
+      const pushRes = await fetch('/api/push', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ticketId: ticket.id }),
+      });
+      const pushData = await pushRes.json();
+      notified = !!pushData.success;
+    } catch {
+      // Network error — notification not sent
+    }
 
-    return { error: null };
+    return { error: null, notified };
   }, []);
 
   const completeService = useCallback(async (ticket: Ticket) => {

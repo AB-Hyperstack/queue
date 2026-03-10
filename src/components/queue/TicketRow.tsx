@@ -30,37 +30,34 @@ export default function TicketRow({ ticket, onCall, onComplete, onNoShow, onSnoo
       const result = await fn();
       if (result && 'error' in result && result.error) {
         setError(t('actionFailed', { action }));
-        setActionLoading(null);
       }
-      // On success, don't clear loading — the row will unmount/re-render via realtime
     } catch {
       setError(t('actionFailed', { action }));
-      setActionLoading(null);
     }
+    setActionLoading(null);
   };
 
   const isDisabled = actionLoading !== null;
 
   return (
-    <div className="rounded-lg border border-gray-100 bg-white p-4 transition-colors hover:bg-gray-50/50">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 font-mono font-bold text-gray-700 text-sm">
+    <div className="rounded-lg border border-gray-100 bg-white p-3 sm:p-4 transition-colors hover:bg-gray-50/50">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-gray-100 font-mono font-bold text-gray-700 text-xs sm:text-sm shrink-0">
             {ticket.display_code}
           </div>
-          <div>
-            <p className="font-medium text-gray-900">
+          <div className="min-w-0">
+            <p className="font-medium text-gray-900 truncate">
               {ticket.customer_name || 'Guest'}
             </p>
             <p className="text-xs text-gray-500">{t('waitingTime', { time: waitTime })}</p>
           </div>
+          <Badge status={ticket.status} />
         </div>
 
-        <div className="flex items-center gap-3">
-          <Badge status={ticket.status} />
-
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           {ticket.status === 'waiting' && (
-            <div className="flex gap-1.5">
+            <div className="flex flex-wrap gap-1.5">
               <Button
                 size="sm"
                 loading={actionLoading === 'Call'}

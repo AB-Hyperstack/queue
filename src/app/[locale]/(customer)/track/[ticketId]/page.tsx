@@ -9,6 +9,7 @@ import { useRealtimeTickets } from '@/lib/hooks/useRealtimeTickets';
 import { requestNotificationPermission, subscriptionToJSON } from '@/lib/utils/push';
 import type { Ticket, Queue } from '@/lib/types/database';
 import TicketTracker from '@/components/queue/TicketTracker';
+import FeedbackForm from '@/components/queue/FeedbackForm';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 
@@ -98,7 +99,7 @@ export default function TrackPage() {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="animate-spin h-8 w-8 rounded-full border-2 border-teal-600 border-t-transparent" />
+        <div className="animate-spin h-8 w-8 rounded-full border-2 border-blue-600 border-t-transparent" />
       </div>
     );
   }
@@ -138,6 +139,17 @@ export default function TrackPage() {
           queue={queue}
           aheadCount={aheadCount}
         />
+
+        {/* Feedback Form — shows when ticket is served */}
+        {ticket.status === 'served' && (
+          <div className="mt-8">
+            <FeedbackForm
+              ticketId={ticket.id}
+              orgId={ticket.org_id}
+              queueId={ticket.queue_id}
+            />
+          </div>
+        )}
 
         {/* Notification CTA */}
         {ticket.status === 'waiting' && !notificationsEnabled && !notificationsDenied && (

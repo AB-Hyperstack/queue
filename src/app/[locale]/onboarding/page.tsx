@@ -10,7 +10,7 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 
 const PRESET_COLORS = [
-  '#0D9488',
+  '#3b82f6',
   '#D97706',
   '#2563EB',
   '#7C3AED',
@@ -35,9 +35,9 @@ function StepIndicator({ current }: { current: number }) {
           key={step}
           className={`h-2 rounded-full transition-all duration-300 ${
             step === current
-              ? 'w-8 bg-teal-600'
+              ? 'w-8 bg-blue-600'
               : step < current
-                ? 'w-2 bg-teal-600'
+                ? 'w-2 bg-blue-600'
                 : 'w-2 bg-gray-200'
           }`}
         />
@@ -210,7 +210,7 @@ export default function OnboardingPage() {
                     </svg>
                   )}
                   {slugChecking && (
-                    <div className="h-3.5 w-3.5 animate-spin rounded-full border border-gray-300 border-t-teal-600" />
+                    <div className="h-3.5 w-3.5 animate-spin rounded-full border border-gray-300 border-t-blue-600" />
                   )}
                 </div>
               </div>
@@ -260,7 +260,7 @@ export default function OnboardingPage() {
                       onClick={() => setQueueColor(color)}
                       className={`h-8 w-8 rounded-full transition-all ${
                         queueColor === color
-                          ? 'ring-2 ring-offset-2 ring-teal-600 scale-110'
+                          ? 'ring-2 ring-offset-2 ring-blue-600 scale-110'
                           : 'hover:scale-105'
                       }`}
                       style={{ backgroundColor: color }}
@@ -294,7 +294,7 @@ export default function OnboardingPage() {
               <div className="text-center">
                 <button
                   type="button"
-                  className="text-sm text-teal-600 hover:text-teal-700"
+                  className="text-sm text-blue-600 hover:text-blue-700"
                   onClick={() => { setStep(1); setError(''); }}
                   disabled={loading}
                 >
@@ -310,8 +310,8 @@ export default function OnboardingPage() {
       {step === 3 && (
         <>
           <div className="text-center mb-6">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-teal-50">
-              <svg className="h-8 w-8 text-teal-600" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-50">
+              <svg className="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
               </svg>
             </div>
@@ -321,14 +321,14 @@ export default function OnboardingPage() {
             </p>
           </div>
 
-          <div className="rounded-lg bg-teal-50 border border-teal-100 p-4 mb-6">
+          <div className="rounded-lg bg-blue-50 border border-blue-100 p-4 mb-6">
             <div className="flex gap-3">
-              <svg className="h-5 w-5 text-teal-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+              <svg className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <div>
-                <p className="text-sm font-medium text-teal-900">{t('trialStarted')}</p>
-                <p className="text-xs text-teal-700 mt-0.5">{t('trialDesc')}</p>
+                <p className="text-sm font-medium text-blue-900">{t('trialStarted')}</p>
+                <p className="text-xs text-blue-700 mt-0.5">{t('trialDesc')}</p>
               </div>
             </div>
           </div>
@@ -337,8 +337,8 @@ export default function OnboardingPage() {
             <Link href="/settings" className="block">
               <Card className="hover:border-gray-200 transition-colors cursor-pointer">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-teal-50">
-                    <svg className="h-5 w-5 text-teal-600" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-50">
+                    <svg className="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5z" />
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5z" />
                       <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5z" />
@@ -369,10 +369,10 @@ export default function OnboardingPage() {
             </a>
 
             <Link href="/dashboard" className="block">
-              <Card className="hover:border-teal-100 border-teal-50 bg-teal-50/30 transition-colors cursor-pointer">
+              <Card className="hover:border-blue-100 border-blue-50 bg-blue-50/30 transition-colors cursor-pointer">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-teal-100">
-                    <svg className="h-5 w-5 text-teal-700" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-100">
+                    <svg className="h-5 w-5 text-blue-700" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6z" />
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25z" />
                       <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6z" />
@@ -380,8 +380,8 @@ export default function OnboardingPage() {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-teal-900">{t('goToDashboard')}</p>
-                    <p className="text-xs text-teal-700">{t('goToDashboardDesc')}</p>
+                    <p className="text-sm font-medium text-blue-900">{t('goToDashboard')}</p>
+                    <p className="text-xs text-blue-700">{t('goToDashboardDesc')}</p>
                   </div>
                 </div>
               </Card>

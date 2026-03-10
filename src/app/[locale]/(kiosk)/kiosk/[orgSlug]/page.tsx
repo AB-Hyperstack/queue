@@ -92,7 +92,7 @@ export default function KioskPage() {
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center bg-gray-900 kiosk-mode">
-        <div className="animate-spin h-12 w-12 rounded-full border-3 border-teal-400 border-t-transparent" />
+        <div className="animate-spin h-12 w-12 rounded-full border-3 border-blue-400 border-t-transparent" />
       </div>
     );
   }
@@ -102,7 +102,7 @@ export default function KioskPage() {
     const trackUrl = `${appUrl}/track/${ticketId}`;
 
     return (
-      <div className="flex h-screen flex-col items-center justify-center bg-teal-600 kiosk-mode">
+      <div className="flex h-screen flex-col items-center justify-center bg-blue-600 kiosk-mode">
         <div className="text-center text-white">
           <p className="text-2xl font-medium mb-4">{t('yourNumberIs')}</p>
           <p className="text-9xl font-bold tracking-wider mb-6">{ticketCode}</p>
@@ -135,7 +135,7 @@ export default function KioskPage() {
       {/* Kiosk Header */}
       <header className="flex items-center justify-between bg-white border-b border-gray-200 px-8 py-5">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-600">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600">
             <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
             </svg>
@@ -163,7 +163,7 @@ export default function KioskPage() {
               key={queue.id}
               onClick={() => handleTakeNumber(queue)}
               className="flex flex-col items-center justify-center rounded-2xl bg-white border-2 border-gray-100
-                         shadow-sm hover:shadow-lg hover:border-teal-200 active:scale-[0.98]
+                         shadow-sm hover:shadow-lg hover:border-blue-200 active:scale-[0.98]
                          transition-all duration-200 p-8 min-h-[250px]"
             >
               {/* Color dot */}
@@ -183,13 +183,13 @@ export default function KioskPage() {
                 </div>
                 <div className="border-l border-gray-200" />
                 <div>
-                  <p className="text-3xl font-bold text-teal-600">{serving}</p>
+                  <p className="text-3xl font-bold text-blue-600">{serving}</p>
                   <p className="text-sm text-gray-500">{t('nowServing')}</p>
                 </div>
               </div>
 
               {/* CTA */}
-              <div className="mt-6 rounded-xl bg-teal-600 px-8 py-3 text-white font-semibold text-lg">
+              <div className="mt-6 rounded-xl bg-blue-600 px-8 py-3 text-white font-semibold text-lg">
                 {t('takeANumber')}
               </div>
             </button>

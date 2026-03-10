@@ -82,7 +82,7 @@ export const mockQueue = {
   org_id: 'org-1',
   name: 'General',
   slug: 'general',
-  color: '#0d9488',
+  color: '#3b82f6',
   is_active: true,
   avg_service_time_min: 5,
   created_at: new Date().toISOString(),

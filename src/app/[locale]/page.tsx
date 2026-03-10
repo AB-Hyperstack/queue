@@ -28,7 +28,7 @@ export default function Home() {
             <LanguageSwitcher />
             <Link
               href="/auth/login"
-              className="rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700 transition-colors"
+              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
             >
               {t('signIn')}
             </Link>
@@ -39,7 +39,7 @@ export default function Home() {
       {/* Hero */}
       <section className="mx-auto max-w-6xl px-6 py-24">
         <div className="max-w-2xl">
-          <p className="text-sm font-medium text-teal-600 mb-3">{t('byCareLabs')}</p>
+          <p className="text-sm font-medium text-blue-600 mb-3">{t('byCareLabs')}</p>
           <h1 className="text-5xl font-bold tracking-tight text-gray-900">
             {t('heroTitle')}
           </h1>
@@ -49,7 +49,7 @@ export default function Home() {
           <div className="mt-8 flex gap-4">
             <Link
               href="/auth/login?mode=signup"
-              className="rounded-lg bg-teal-600 px-6 py-3 text-sm font-medium text-white hover:bg-teal-700 transition-colors"
+              className="rounded-lg bg-blue-600 px-6 py-3 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
             >
               {t('startFreeTrial')}
             </Link>
@@ -75,8 +75,8 @@ export default function Home() {
           <h2 className="text-2xl font-bold text-gray-900 mb-12">{t('everythingYouNeed')}</h2>
           <div className="grid gap-8 md:grid-cols-3">
             <div className="rounded-xl bg-white p-6 shadow-sm border border-gray-100">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-teal-50 mb-4">
-                <svg className="h-5 w-5 text-teal-600" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 mb-4">
+                <svg className="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                 </svg>
               </div>
@@ -132,23 +132,23 @@ export default function Home() {
               <p className="mt-2 text-sm text-gray-500">{t('monthlyDesc')}</p>
               <ul className="mt-6 space-y-3 text-sm text-gray-600">
                 <li className="flex gap-2">
-                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  <svg className="h-5 w-5 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                   {p('unlimitedQueues')}
                 </li>
                 <li className="flex gap-2">
-                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  <svg className="h-5 w-5 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                   {p('unlimitedStaff')}
                 </li>
                 <li className="flex gap-2">
-                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  <svg className="h-5 w-5 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                   {p('realtimeAnalytics')}
                 </li>
                 <li className="flex gap-2">
-                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  <svg className="h-5 w-5 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                   {p('qrAndKiosk')}
                 </li>
                 <li className="flex gap-2">
-                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  <svg className="h-5 w-5 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                   {p('pushNotifications')}
                 </li>
               </ul>
@@ -161,8 +161,8 @@ export default function Home() {
             </div>
 
             {/* Yearly — highlighted */}
-            <div className="rounded-xl bg-white p-8 shadow-sm border-2 border-teal-600 relative">
-              <div className="absolute -top-3 right-6 bg-teal-600 text-white text-xs font-medium px-3 py-1 rounded-full">
+            <div className="rounded-xl bg-white p-8 shadow-sm border-2 border-blue-600 relative">
+              <div className="absolute -top-3 right-6 bg-blue-600 text-white text-xs font-medium px-3 py-1 rounded-full">
                 {t('save17')}
               </div>
               <h3 className="font-semibold text-gray-900">{t('yearly')}</h3>
@@ -173,29 +173,29 @@ export default function Home() {
               <p className="mt-2 text-sm text-gray-500">{t('yearlyDesc')}</p>
               <ul className="mt-6 space-y-3 text-sm text-gray-600">
                 <li className="flex gap-2">
-                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  <svg className="h-5 w-5 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                   {p('unlimitedQueues')}
                 </li>
                 <li className="flex gap-2">
-                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  <svg className="h-5 w-5 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                   {p('unlimitedStaff')}
                 </li>
                 <li className="flex gap-2">
-                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  <svg className="h-5 w-5 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                   {p('realtimeAnalytics')}
                 </li>
                 <li className="flex gap-2">
-                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  <svg className="h-5 w-5 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                   {p('qrAndKiosk')}
                 </li>
                 <li className="flex gap-2">
-                  <svg className="h-5 w-5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  <svg className="h-5 w-5 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                   {p('pushNotifications')}
                 </li>
               </ul>
               <Link
                 href="/auth/login?mode=signup"
-                className="mt-8 block rounded-lg bg-teal-600 px-6 py-3 text-center text-sm font-medium text-white hover:bg-teal-700 transition-colors"
+                className="mt-8 block rounded-lg bg-blue-600 px-6 py-3 text-center text-sm font-medium text-white hover:bg-blue-700 transition-colors"
               >
                 {t('startFreeTrial')}
               </Link>

@@ -18,7 +18,7 @@ export default function QueueCard({ queue, waitingCount, onSelect, selected }: Q
       onClick={onSelect}
       className={`w-full text-left rounded-xl border-2 p-5 transition-all duration-150 hover:shadow-md ${
         selected
-          ? 'border-teal-500 bg-teal-50/50 shadow-sm'
+          ? 'border-blue-500 bg-blue-50/50 shadow-sm'
           : 'border-gray-100 bg-white hover:border-gray-200'
       }`}
     >

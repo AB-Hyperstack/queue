@@ -87,7 +87,7 @@ export default function DisplayPage() {
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center bg-gray-950">
-        <div className="animate-spin h-12 w-12 rounded-full border-3 border-teal-400 border-t-transparent" />
+        <div className="animate-spin h-12 w-12 rounded-full border-3 border-blue-400 border-t-transparent" />
       </div>
     );
   }
@@ -114,7 +114,7 @@ export default function DisplayPage() {
       {/* Header */}
       <header className="flex items-center justify-between px-10 py-6 border-b border-gray-800">
         <div className="flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-600">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600">
             <svg className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
             </svg>
@@ -146,7 +146,7 @@ export default function DisplayPage() {
               key={queue.id}
               className={`flex flex-col items-center justify-center rounded-3xl border transition-all duration-500 ${
                 isFlashing
-                  ? 'border-teal-400 bg-teal-950/50 scale-[1.02]'
+                  ? 'border-blue-400 bg-blue-950/50 scale-[1.02]'
                   : 'border-gray-800 bg-gray-900/50'
               }`}
             >
@@ -168,7 +168,7 @@ export default function DisplayPage() {
               <div className={`transition-all duration-500 ${isFlashing ? 'scale-110' : ''}`}>
                 <p className={`font-bold tabular-nums leading-none ${
                   queues.length <= 2 ? 'text-[12rem]' : 'text-[8rem]'
-                } ${serving === '—' ? 'text-gray-700' : 'text-teal-400'}`}>
+                } ${serving === '—' ? 'text-gray-700' : 'text-blue-400'}`}>
                   {serving}
                 </p>
               </div>

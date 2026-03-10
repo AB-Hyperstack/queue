@@ -39,7 +39,7 @@ export default function TicketTracker({ ticket, queue, aheadCount }: TicketTrack
             cy="100"
             r="85"
             fill="none"
-            stroke={isBeingServed ? '#10b981' : '#0d9488'}
+            stroke={isBeingServed ? '#10b981' : '#3b82f6'}
             strokeWidth="12"
             strokeLinecap="round"
             strokeDasharray={`${2 * Math.PI * 85}`}

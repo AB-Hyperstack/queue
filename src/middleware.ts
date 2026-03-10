@@ -91,6 +91,11 @@ export async function middleware(request: NextRequest) {
     return redirectTo('/auth/login', { redirect: strippedPath });
   }
 
+  // Admin user visiting /dashboard → redirect to /admin
+  if (user.email === process.env.ADMIN_EMAIL && strippedPath === '/dashboard') {
+    return redirectTo('/admin');
+  }
+
   // Authenticated → check onboarding status
   const { data: staff } = await supabase
     .from('staff_members')

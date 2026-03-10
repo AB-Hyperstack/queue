@@ -9,13 +9,12 @@ interface StatBlockProps {
   color?: string;
 }
 
-export default function StatBlock({ label, value, icon, trend, color = 'teal' }: StatBlockProps) {
+export default function StatBlock({ label, value, icon, trend, color = 'blue' }: StatBlockProps) {
   const colorMap: Record<string, string> = {
-    teal: 'bg-teal-50 text-teal-600',
+    blue: 'bg-blue-50 text-blue-600',
     amber: 'bg-amber-50 text-amber-600',
     green: 'bg-green-50 text-green-600',
     red: 'bg-red-50 text-red-600',
-    blue: 'bg-blue-50 text-blue-600',
   };
 
   return (
@@ -31,7 +30,7 @@ export default function StatBlock({ label, value, icon, trend, color = 'teal' }:
           )}
         </div>
         {icon && (
-          <div className={`rounded-lg p-2.5 ${colorMap[color] || colorMap.teal}`}>
+          <div className={`rounded-lg p-2.5 ${colorMap[color] || colorMap.blue}`}>
             {icon}
           </div>
         )}

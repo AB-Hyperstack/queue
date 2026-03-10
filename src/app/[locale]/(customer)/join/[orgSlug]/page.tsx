@@ -109,7 +109,7 @@ function JoinQueueContent() {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="animate-spin h-8 w-8 rounded-full border-2 border-teal-600 border-t-transparent" />
+        <div className="animate-spin h-8 w-8 rounded-full border-2 border-blue-600 border-t-transparent" />
       </div>
     );
   }
@@ -192,7 +192,7 @@ export default function JoinQueuePage() {
     <Suspense
       fallback={
         <div className="flex min-h-screen items-center justify-center">
-          <div className="animate-spin h-8 w-8 rounded-full border-2 border-teal-600 border-t-transparent" />
+          <div className="animate-spin h-8 w-8 rounded-full border-2 border-blue-600 border-t-transparent" />
         </div>
       }
     >

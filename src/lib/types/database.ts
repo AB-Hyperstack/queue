@@ -60,6 +60,16 @@ export interface AnalyticsLog {
   created_at: string;
 }
 
+export interface Feedback {
+  id: string;
+  ticket_id: string;
+  org_id: string;
+  queue_id: string | null;
+  rating: number;
+  comment: string | null;
+  created_at: string;
+}
+
 export interface PushSubscriptionJSON {
   endpoint: string;
   keys: {

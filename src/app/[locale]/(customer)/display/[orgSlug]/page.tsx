@@ -53,10 +53,17 @@ export default function DisplayPage() {
   }, [orgSlug]);
 
   // Realtime tickets
-  const { tickets: allTickets, connected } = useRealtimeTickets({
+  const { tickets: allTickets, connected, refetch } = useRealtimeTickets({
     orgId: org?.id,
     statusFilter: ['waiting', 'serving'],
   });
+
+  // Polling fallback — keeps display up-to-date even if realtime drops
+  useEffect(() => {
+    if (!org) return;
+    const interval = setInterval(() => refetch(), 5000);
+    return () => clearInterval(interval);
+  }, [org, refetch]);
 
   const getWaitingCount = useCallback(
     (queueId: string) => allTickets.filter((t) => t.queue_id === queueId && t.status === 'waiting').length,

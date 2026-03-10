@@ -113,7 +113,7 @@ export default function AdminOrganizationsPage() {
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <div className="animate-spin h-8 w-8 rounded-full border-2 border-teal-600 border-t-transparent" />
+        <div className="animate-spin h-8 w-8 rounded-full border-2 border-blue-600 border-t-transparent" />
       </div>
     );
   }
@@ -122,9 +122,9 @@ export default function AdminOrganizationsPage() {
     <div className="flex flex-col h-full">
       <TopBar title={t('title')} subtitle={t('registered', { count: data?.total ?? 0 })} />
 
-      <div className="flex-1 overflow-auto p-6">
+      <div className="flex-1 overflow-auto p-4 md:p-6">
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
           <StatBlock
             label={t('total')}
             value={data?.total ?? 0}

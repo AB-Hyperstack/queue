@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/navigation';
 import Image from 'next/image';
+import { useSidebar } from '@/components/layout/SidebarProvider';
 
 const navItems = [
   {
@@ -40,18 +41,27 @@ const navItems = [
 export default function AdminSidebar() {
   const t = useTranslations('AdminSidebar');
   const pathname = usePathname();
+  const { isOpen, close } = useSidebar();
 
-  return (
-    <aside className="flex h-screen w-64 flex-col border-r border-gray-200 bg-white">
+  const sidebarContent = (
+    <>
       {/* Logo */}
-      <div className="flex h-16 items-center gap-2 border-b border-gray-100 px-6">
-        <Image
-          src="/carelabs-logo.svg"
-          alt="CareLabs"
-          width={120}
-          height={20}
-        />
-        <span className="text-xs font-medium text-red-500 border-l border-gray-200 pl-2">{t('admin')}</span>
+      <div className="flex h-16 items-center justify-between border-b border-gray-100 px-6">
+        <div className="flex items-center gap-2">
+          <Image
+            src="/carelabs-logo.svg"
+            alt="CareLabs"
+            width={120}
+            height={20}
+          />
+          <span className="text-xs font-medium text-red-500 border-l border-gray-200 pl-2">{t('admin')}</span>
+        </div>
+        {/* Close button — mobile only */}
+        <button onClick={close} className="md:hidden p-1 text-gray-400 hover:text-gray-600">
+          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
 
       {/* Navigation */}
@@ -66,7 +76,7 @@ export default function AdminSidebar() {
               href={item.href}
               className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                 isActive
-                  ? 'bg-teal-50 text-teal-700'
+                  ? 'bg-blue-50 text-blue-700'
                   : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
               }`}
             >
@@ -90,6 +100,28 @@ export default function AdminSidebar() {
         </Link>
         <p className="text-xs text-gray-400">{t('branding')}</p>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Mobile backdrop */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/50 md:hidden"
+          onClick={close}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-gray-200 bg-white
+          transform transition-transform duration-200 ease-in-out
+          md:static md:translate-x-0
+          ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
+      >
+        {sidebarContent}
+      </aside>
+    </>
   );
 }

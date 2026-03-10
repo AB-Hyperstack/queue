@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/navigation';
 import Image from 'next/image';
 import { useSubscription } from '@/lib/hooks/useSubscription';
+import { useSidebar } from '@/components/layout/SidebarProvider';
 
 const navItems = [
   {
@@ -49,18 +50,27 @@ export default function Sidebar() {
   const t = useTranslations('Sidebar');
   const pathname = usePathname();
   const { isTrialing, isActive, isExpired, daysRemaining, showWarning } = useSubscription();
+  const { isOpen, close } = useSidebar();
 
-  return (
-    <aside className="flex h-screen w-64 flex-col border-r border-gray-200 bg-white">
+  const sidebarContent = (
+    <>
       {/* Logo */}
-      <div className="flex h-16 items-center gap-2 border-b border-gray-100 px-6">
-        <Image
-          src="/carelabs-logo.svg"
-          alt="CareLabs"
-          width={120}
-          height={20}
-        />
-        <span className="text-xs font-medium text-gray-400 border-l border-gray-200 pl-2">QueueFlow</span>
+      <div className="flex h-16 items-center justify-between border-b border-gray-100 px-6">
+        <div className="flex items-center gap-2">
+          <Image
+            src="/carelabs-logo.svg"
+            alt="CareLabs"
+            width={120}
+            height={20}
+          />
+          <span className="text-xs font-medium text-gray-400 border-l border-gray-200 pl-2">QueueFlow</span>
+        </div>
+        {/* Close button — mobile only */}
+        <button onClick={close} className="md:hidden p-1 text-gray-400 hover:text-gray-600">
+          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
 
       {/* Navigation */}
@@ -73,7 +83,7 @@ export default function Sidebar() {
               href={item.href}
               className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                 isItemActive
-                  ? 'bg-teal-50 text-teal-700'
+                  ? 'bg-blue-50 text-blue-700'
                   : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
               }`}
             >
@@ -91,17 +101,17 @@ export default function Sidebar() {
             <div className={`rounded-lg p-3 text-sm ${
               showWarning
                 ? 'bg-amber-50 border border-amber-200'
-                : 'bg-teal-50 border border-teal-100'
+                : 'bg-blue-50 border border-blue-100'
             }`}>
               <div className="flex items-center gap-2">
-                <svg className={`h-4 w-4 ${showWarning ? 'text-amber-600' : 'text-teal-600'}`} fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                <svg className={`h-4 w-4 ${showWarning ? 'text-amber-600' : 'text-blue-600'}`} fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span className={`font-medium ${showWarning ? 'text-amber-700' : 'text-teal-700'}`}>
+                <span className={`font-medium ${showWarning ? 'text-amber-700' : 'text-blue-700'}`}>
                   {t('trialDaysLeft', { days: daysRemaining })}
                 </span>
               </div>
-              <p className={`text-xs mt-1 ${showWarning ? 'text-amber-600' : 'text-teal-600'}`}>
+              <p className={`text-xs mt-1 ${showWarning ? 'text-amber-600' : 'text-blue-600'}`}>
                 {showWarning ? t('upgradeToKeep') : t('upgradeAnytime')}
               </p>
             </div>
@@ -128,6 +138,28 @@ export default function Sidebar() {
 
         <p className="text-xs text-gray-400">{t('branding')}</p>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Mobile backdrop */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/50 md:hidden"
+          onClick={close}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-gray-200 bg-white
+          transform transition-transform duration-200 ease-in-out
+          md:static md:translate-x-0
+          ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
+      >
+        {sidebarContent}
+      </aside>
+    </>
   );
 }

@@ -37,7 +37,7 @@ export default function AdminOverviewPage() {
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <div className="animate-spin h-8 w-8 rounded-full border-2 border-teal-600 border-t-transparent" />
+        <div className="animate-spin h-8 w-8 rounded-full border-2 border-blue-600 border-t-transparent" />
       </div>
     );
   }
@@ -46,7 +46,7 @@ export default function AdminOverviewPage() {
     <div className="flex flex-col h-full">
       <TopBar title={t('title')} subtitle={t('subtitle')} />
 
-      <div className="flex-1 overflow-auto p-6">
+      <div className="flex-1 overflow-auto p-4 md:p-6">
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <StatBlock
@@ -62,7 +62,7 @@ export default function AdminOverviewPage() {
           <StatBlock
             label={t('totalTickets')}
             value={stats?.total_tickets ?? 0}
-            color="teal"
+            color="blue"
             icon={
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z" />
@@ -92,7 +92,7 @@ export default function AdminOverviewPage() {
         </div>
 
         {/* Subscription breakdown cards */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           <Card>
             <div className="text-center">
               <p className="text-sm text-gray-500">{t('trialing')}</p>
@@ -131,7 +131,7 @@ export default function AdminOverviewPage() {
                   <YAxis tick={{ fontSize: 11 }} stroke="#9ca3af" />
                   <Tooltip contentStyle={{ borderRadius: 8, border: '1px solid #e5e7eb' }} />
                   <Legend />
-                  <Bar dataKey="joins" fill="#0d9488" radius={[2, 2, 0, 0]} name={t('joins')} />
+                  <Bar dataKey="joins" fill="#3b82f6" radius={[2, 2, 0, 0]} name={t('joins')} />
                   <Bar dataKey="served" fill="#10b981" radius={[2, 2, 0, 0]} name={t('served')} />
                 </BarChart>
               </ResponsiveContainer>
@@ -200,7 +200,7 @@ export default function AdminOverviewPage() {
                       </div>
                       <div className="h-2 rounded-full bg-gray-100">
                         <div
-                          className="h-2 rounded-full bg-teal-500 transition-all"
+                          className="h-2 rounded-full bg-blue-500 transition-all"
                           style={{ width: `${(org.ticket_count / maxCount) * 100}%` }}
                         />
                       </div>

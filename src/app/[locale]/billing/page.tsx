@@ -84,7 +84,7 @@ function BillingContent() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="animate-spin h-8 w-8 rounded-full border-2 border-teal-600 border-t-transparent" />
+        <div className="animate-spin h-8 w-8 rounded-full border-2 border-blue-600 border-t-transparent" />
       </div>
     );
   }
@@ -124,12 +124,12 @@ function BillingContent() {
         <div className={`mb-6 rounded-xl p-4 text-center border ${
           daysRemaining <= 3
             ? 'bg-amber-50 border-amber-200'
-            : 'bg-teal-50 border-teal-100'
+            : 'bg-blue-50 border-blue-100'
         }`}>
-          <p className={`text-sm font-medium ${daysRemaining <= 3 ? 'text-amber-800' : 'text-teal-800'}`}>
+          <p className={`text-sm font-medium ${daysRemaining <= 3 ? 'text-amber-800' : 'text-blue-800'}`}>
             {t('trialRemaining', { days: daysRemaining })}
           </p>
-          <p className={`text-sm mt-1 ${daysRemaining <= 3 ? 'text-amber-600' : 'text-teal-600'}`}>
+          <p className={`text-sm mt-1 ${daysRemaining <= 3 ? 'text-amber-600' : 'text-blue-600'}`}>
             {t('subscribeNow')}
           </p>
         </div>
@@ -169,7 +169,7 @@ function BillingContent() {
           <Card
             className={`transition-all cursor-pointer h-full ${
               selectedPlan === 'monthly'
-                ? 'border-teal-600 border-2 shadow-md'
+                ? 'border-blue-600 border-2 shadow-md'
                 : 'hover:border-gray-200'
             }`}
           >
@@ -188,13 +188,13 @@ function BillingContent() {
           onClick={() => setSelectedPlan('yearly')}
           className="text-left relative"
         >
-          <div className="absolute -top-2.5 right-4 bg-teal-600 text-white text-xs font-medium px-2.5 py-0.5 rounded-full z-10">
+          <div className="absolute -top-2.5 right-4 bg-blue-600 text-white text-xs font-medium px-2.5 py-0.5 rounded-full z-10">
             {t('savePercent', { percent: PLANS.yearly.savings })}
           </div>
           <Card
             className={`transition-all cursor-pointer h-full ${
               selectedPlan === 'yearly'
-                ? 'border-teal-600 border-2 shadow-md'
+                ? 'border-blue-600 border-2 shadow-md'
                 : 'hover:border-gray-200'
             }`}
           >
@@ -213,10 +213,10 @@ function BillingContent() {
       {/* Features */}
       <Card className="mb-6">
         <p className="text-sm font-medium text-gray-700 mb-3">{t('everythingIncluded')}</p>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {featureKeys.map((key) => (
             <div key={key} className="flex items-center gap-2 text-sm text-gray-600">
-              <svg className="h-4 w-4 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+              <svg className="h-4 w-4 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
               </svg>
               {tf(key)}
@@ -246,7 +246,7 @@ function BillingContent() {
       {/* Footer Links */}
       <div className="mt-6 flex items-center justify-center gap-4">
         {hasAccess && (
-          <Link href="/dashboard" className="text-sm text-teal-600 hover:text-teal-700">
+          <Link href="/dashboard" className="text-sm text-blue-600 hover:text-blue-700">
             {t('backToDashboard')}
           </Link>
         )}
@@ -266,7 +266,7 @@ export default function BillingPage() {
   return (
     <Suspense fallback={
       <div className="flex items-center justify-center py-20">
-        <div className="animate-spin h-8 w-8 rounded-full border-2 border-teal-600 border-t-transparent" />
+        <div className="animate-spin h-8 w-8 rounded-full border-2 border-blue-600 border-t-transparent" />
       </div>
     }>
       <BillingContent />

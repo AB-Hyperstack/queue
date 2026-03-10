@@ -104,7 +104,7 @@ export default function SettingsPage() {
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <div className="animate-spin h-8 w-8 rounded-full border-2 border-teal-600 border-t-transparent" />
+        <div className="animate-spin h-8 w-8 rounded-full border-2 border-blue-600 border-t-transparent" />
       </div>
     );
   }
@@ -113,7 +113,7 @@ export default function SettingsPage() {
     <div className="flex flex-col h-full">
       <TopBar title={t('title')} subtitle={org?.name} />
 
-      <div className="flex-1 overflow-auto p-6 max-w-4xl">
+      <div className="flex-1 overflow-auto p-4 md:p-6 max-w-4xl">
         {/* Plan & Billing */}
         {!subLoading && subscription && (
           <>
@@ -125,7 +125,7 @@ export default function SettingsPage() {
                     <>
                       <div className="flex items-center gap-2 mb-1">
                         <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                          showWarning ? 'bg-amber-50 text-amber-700' : 'bg-teal-50 text-teal-700'
+                          showWarning ? 'bg-amber-50 text-amber-700' : 'bg-blue-50 text-blue-700'
                         }`}>
                           {t('freeTrial')}
                         </span>

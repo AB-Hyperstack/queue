@@ -61,7 +61,7 @@ export default function DashboardPage() {
   }, []);
 
   // Realtime tickets for selected queue
-  const { tickets, connected } = useRealtimeTickets({
+  const { tickets, connected, refetch } = useRealtimeTickets({
     queueId: selectedQueue?.id,
     statusFilter: ['waiting', 'serving'],
   });
@@ -188,7 +188,11 @@ export default function DashboardPage() {
                     <TicketRow
                       key={tk.id}
                       ticket={tk}
-                      onComplete={async () => completeService(tk)}
+                      onComplete={async () => {
+                        const result = await completeService(tk);
+                        if (!result.error) refetch();
+                        return result;
+                      }}
                     />
                   ))}
                 </>
@@ -205,6 +209,7 @@ export default function DashboardPage() {
                       onCall={async () => {
                         const result = await callNext(tk);
                         if (!result.error) {
+                          refetch();
                           if (result.notified) {
                             showToast(t('calledAndNotified', { code: tk.display_code }), 'success');
                           } else {
@@ -213,8 +218,16 @@ export default function DashboardPage() {
                         }
                         return result;
                       }}
-                      onSnooze={async () => snoozeTicket(tk)}
-                      onNoShow={async () => markNoShow(tk)}
+                      onSnooze={async () => {
+                        const result = await snoozeTicket(tk);
+                        if (!result.error) refetch();
+                        return result;
+                      }}
+                      onNoShow={async () => {
+                        const result = await markNoShow(tk);
+                        if (!result.error) refetch();
+                        return result;
+                      }}
                     />
                   ))}
                 </>

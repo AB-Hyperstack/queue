@@ -2,7 +2,7 @@
 
 import { useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import type { Ticket } from '@/lib/types/database';
+import type { Ticket, PushSubscriptionJSON } from '@/lib/types/database';
 
 export function useQueue() {
   const callNext = useCallback(async (ticket: Ticket) => {
@@ -167,7 +167,8 @@ export function useQueue() {
     queueId: string,
     orgId: string,
     customerName?: string,
-    customerPhone?: string
+    customerPhone?: string,
+    pushSubscription?: PushSubscriptionJSON | null
   ) => {
     const supabase = createClient();
 
@@ -209,6 +210,7 @@ export function useQueue() {
         display_code: displayCode,
         customer_name: customerName || null,
         customer_phone: customerPhone || null,
+        push_subscription: pushSubscription || null,
         status: 'waiting',
         position,
       })

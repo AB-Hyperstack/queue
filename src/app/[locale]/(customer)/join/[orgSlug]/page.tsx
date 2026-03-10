@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { createClient } from '@/lib/supabase/client';
 import { useQueue } from '@/lib/hooks/useQueue';
+import { requestNotificationPermission, subscriptionToJSON } from '@/lib/utils/push';
 import type { Queue, Organization } from '@/lib/types/database';
 import QueueSelector from '@/components/queue/QueueSelector';
 import Button from '@/components/ui/Button';
@@ -89,10 +90,24 @@ function JoinQueueContent() {
     if (!selectedQueue || !org) return;
     setJoining(true);
 
+    // Request push permission before creating the ticket
+    // so the subscription is stored immediately on insert
+    let pushSub = null;
+    try {
+      const subscription = await requestNotificationPermission();
+      if (subscription) {
+        pushSub = subscriptionToJSON(subscription);
+      }
+    } catch {
+      // Push not supported or denied — continue without it
+    }
+
     const { data, error: joinError } = await joinQueue(
       selectedQueue.id,
       org.id,
-      customerName || undefined
+      customerName || undefined,
+      undefined,
+      pushSub
     );
 
     if (joinError) {

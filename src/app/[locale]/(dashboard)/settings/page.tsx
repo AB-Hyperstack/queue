@@ -293,6 +293,26 @@ export default function SettingsPage() {
             </Button>
           </div>
         </Card>
+
+        {/* Display Link */}
+        <h2 className="text-lg font-semibold text-gray-900 mt-8 mb-4">{t('displayModeTitle')}</h2>
+        <Card>
+          <p className="text-sm text-gray-600 mb-3">
+            {t('displayModeDesc')}
+          </p>
+          <div className="flex items-center gap-2 rounded-lg bg-gray-50 p-3">
+            <code className="flex-1 text-sm text-gray-700 break-all">
+              {appUrl}/display/{org?.slug}
+            </code>
+            <Button
+              size="sm"
+              variant="secondary"
+              onClick={() => navigator.clipboard.writeText(`${appUrl}/display/${org?.slug}`)}
+            >
+              {tc('copy')}
+            </Button>
+          </div>
+        </Card>
       </div>
     </div>
   );

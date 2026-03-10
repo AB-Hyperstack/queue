@@ -155,7 +155,9 @@
     "queueLanes": "Queue Lanes",
     "newQueuePlaceholder": "New queue name (e.g. Support)",
     "kioskModeTitle": "Kiosk Mode",
-    "kioskModeDesc": "Open this link on a tablet to use Kiosk mode for walk-in customers."
+    "kioskModeDesc": "Open this link on a tablet to use Kiosk mode for walk-in customers.",
+    "displayModeTitle": "Waiting Room Display",
+    "displayModeDesc": "Open this link on a TV or screen in your waiting room to show current queue numbers and status."
   },
   "Billing": {
     "paymentSuccess": "Payment successful! Your subscription is now active.",

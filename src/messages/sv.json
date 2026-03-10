@@ -155,7 +155,9 @@
     "queueLanes": "Köfält",
     "newQueuePlaceholder": "Nytt könamn (t.ex. Support)",
     "kioskModeTitle": "Kioskläge",
-    "kioskModeDesc": "Öppna denna länk på en surfplatta för att använda kioskläge för besökare."
+    "kioskModeDesc": "Öppna denna länk på en surfplatta för att använda kioskläge för besökare.",
+    "displayModeTitle": "Väntrumsvisning",
+    "displayModeDesc": "Öppna denna länk på en TV eller skärm i väntrummet för att visa aktuella könummer och status."
   },
   "Billing": {
     "paymentSuccess": "Betalningen lyckades! Din prenumeration är nu aktiv.",

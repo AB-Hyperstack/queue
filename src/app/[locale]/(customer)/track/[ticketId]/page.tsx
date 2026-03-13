@@ -1,11 +1,10 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { createClient } from '@/lib/supabase/client';
-import { useRealtimeTickets } from '@/lib/hooks/useRealtimeTickets';
 import { requestNotificationPermission, subscriptionToJSON } from '@/lib/utils/push';
 import type { Ticket, Queue } from '@/lib/types/database';
 import TicketTracker from '@/components/queue/TicketTracker';
@@ -21,76 +20,95 @@ export default function TrackPage() {
 
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [queue, setQueue] = useState<Queue | null>(null);
+  const [aheadCount, setAheadCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [notificationsDenied, setNotificationsDenied] = useState(false);
+  const ticketRef = useRef<Ticket | null>(null);
 
-  // Load ticket and queue data
+  // Load queue data once we have a ticket
   useEffect(() => {
-    async function load() {
-      const supabase = createClient();
-      const { data: ticketData } = await supabase
-        .from('tickets')
-        .select('*')
-        .eq('id', ticketId)
-        .single();
+    if (!ticket?.queue_id) return;
+    const supabase = createClient();
+    supabase
+      .from('queues')
+      .select('*')
+      .eq('id', ticket.queue_id)
+      .single()
+      .then(({ data }) => { if (data) setQueue(data); });
+  }, [ticket?.queue_id]);
 
-      if (ticketData) {
-        setTicket(ticketData);
+  // Fetch ticket + ahead count in one go
+  const fetchTicket = useCallback(async () => {
+    const supabase = createClient();
+    const { data } = await supabase
+      .from('tickets')
+      .select('*')
+      .eq('id', ticketId)
+      .single();
 
-        const { data: queueData } = await supabase
-          .from('queues')
-          .select('*')
-          .eq('id', ticketData.queue_id)
-          .single();
-
-        if (queueData) setQueue(queueData);
+    if (data) {
+      // Only update state if something actually changed
+      const prev = ticketRef.current;
+      if (!prev || JSON.stringify(prev) !== JSON.stringify(data)) {
+        ticketRef.current = data;
+        setTicket(data);
       }
-      setLoading(false);
+
+      // Count people ahead (only relevant while waiting)
+      if (data.status === 'waiting') {
+        const { count } = await supabase
+          .from('tickets')
+          .select('*', { count: 'exact', head: true })
+          .eq('queue_id', data.queue_id)
+          .eq('status', 'waiting')
+          .lt('position', data.position);
+        setAheadCount(count ?? 0);
+      } else {
+        setAheadCount(0);
+      }
     }
-    load();
+    return data;
   }, [ticketId]);
 
-  // Subscribe to realtime updates for this queue
-  const { tickets: queueTickets } = useRealtimeTickets({
-    queueId: ticket?.queue_id,
-    statusFilter: ['waiting', 'serving'],
-  });
-
-  // Update our ticket from realtime data
+  // Initial load
   useEffect(() => {
-    if (!ticket) return;
-    const updated = queueTickets.find((t) => t.id === ticket.id);
-    if (updated && JSON.stringify(updated) !== JSON.stringify(ticket)) {
-      setTicket(updated);
-    }
-  }, [queueTickets, ticket]);
+    fetchTicket().then(() => setLoading(false));
+  }, [fetchTicket]);
 
-  // Calculate position
-  const aheadCount = ticket
-    ? queueTickets.filter(
-        (t) => t.status === 'waiting' && (t.position ?? 999) < (ticket.position ?? 999)
-      ).length
-    : 0;
-
-  // Polling fallback — keeps ticket status up-to-date even if realtime drops
+  // Polling (reliable fallback) + Realtime (instant when it works)
   useEffect(() => {
     if (!ticketId) return;
-    const interval = setInterval(async () => {
-      const supabase = createClient();
-      const { data } = await supabase
-        .from('tickets')
-        .select('*')
-        .eq('id', ticketId)
-        .single();
-      if (data) {
-        setTicket((prev) =>
-          prev && JSON.stringify(prev) !== JSON.stringify(data) ? data : prev
-        );
-      }
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [ticketId]);
+    const supabase = createClient();
+
+    // Poll every 3 seconds — guaranteed to work on all browsers
+    const interval = setInterval(fetchTicket, 3000);
+
+    // Also subscribe to realtime for instant updates when available
+    const channel = supabase
+      .channel(`track-${ticketId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'tickets',
+          filter: `id=eq.${ticketId}`,
+        },
+        (payload) => {
+          const updated = payload.new as Ticket;
+          ticketRef.current = updated;
+          setTicket(updated);
+          if (updated.status !== 'waiting') setAheadCount(0);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      clearInterval(interval);
+      supabase.removeChannel(channel);
+    };
+  }, [ticketId, fetchTicket]);
 
   // Check notification state on mount
   useEffect(() => {

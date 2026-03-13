@@ -164,6 +164,119 @@ export default function Home() {
               <p className="text-gray-600 leading-relaxed">{t('adminViewDesc')}</p>
             </div>
           </div>
+
+          {/* Analytics View */}
+          <div className="grid gap-12 md:grid-cols-2 items-center mt-20">
+            <div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">{t('analyticsViewTitle')}</h3>
+              <p className="text-gray-600 leading-relaxed">{t('analyticsViewDesc')}</p>
+            </div>
+            <div className="rounded-2xl border border-gray-200 bg-white shadow-lg overflow-hidden">
+              <div className="bg-gray-900 px-6 py-3 flex items-center gap-2">
+                <div className="flex gap-1.5">
+                  <div className="h-2.5 w-2.5 rounded-full bg-red-400" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-green-400" />
+                </div>
+                <span className="text-xs text-gray-400 ml-2">QueueFlow Analytics</span>
+              </div>
+              <div className="p-5">
+                {/* Stats cards */}
+                <div className="grid grid-cols-3 gap-3 mb-5">
+                  <div className="rounded-lg bg-blue-50 p-3 text-center">
+                    <p className="text-xl font-bold text-blue-600">127</p>
+                    <p className="text-xs text-blue-700">{t('analyticsViewMockupServed')}</p>
+                  </div>
+                  <div className="rounded-lg bg-amber-50 p-3 text-center">
+                    <p className="text-xl font-bold text-amber-600">4m</p>
+                    <p className="text-xs text-amber-700">{t('analyticsViewMockupAvgWait')}</p>
+                  </div>
+                  <div className="rounded-lg bg-green-50 p-3 text-center">
+                    <p className="text-xl font-bold text-green-600">8m</p>
+                    <p className="text-xs text-green-700">{t('analyticsViewMockupAvgService')}</p>
+                  </div>
+                </div>
+                {/* Chart mockup */}
+                <div className="rounded-lg border border-gray-100 p-3">
+                  <p className="text-xs font-medium text-gray-500 mb-3">{t('analyticsViewMockupDaily')}</p>
+                  <div className="flex items-end gap-1.5 h-20">
+                    {[35, 50, 42, 65, 58, 72, 48].map((h, i) => (
+                      <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                        <div className="w-full rounded-sm bg-blue-400" style={{ height: `${h}%` }} />
+                        <span className="text-[9px] text-gray-400">{['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][i]}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Feedback View */}
+          <div className="grid gap-12 md:grid-cols-2 items-center mt-20">
+            <div className="order-2 md:order-1 rounded-2xl border border-gray-200 bg-white shadow-lg overflow-hidden">
+              <div className="bg-gray-900 px-6 py-3 flex items-center gap-2">
+                <div className="flex gap-1.5">
+                  <div className="h-2.5 w-2.5 rounded-full bg-red-400" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-green-400" />
+                </div>
+                <span className="text-xs text-gray-400 ml-2">QueueFlow Feedback</span>
+              </div>
+              <div className="p-5">
+                {/* Rating overview */}
+                <div className="grid grid-cols-2 gap-3 mb-5">
+                  <div className="rounded-lg bg-amber-50 p-4 text-center">
+                    <div className="flex items-center justify-center gap-1 mb-1">
+                      {[1, 2, 3, 4, 5].map((s) => (
+                        <svg key={s} className={`h-4 w-4 ${s <= 4 ? 'text-amber-400' : 'text-gray-300'}`} fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                      ))}
+                    </div>
+                    <p className="text-2xl font-bold text-amber-600">4.3</p>
+                    <p className="text-xs text-amber-700">{t('feedbackViewMockupAvgRating')}</p>
+                  </div>
+                  <div className="rounded-lg bg-blue-50 p-4 text-center">
+                    <p className="text-2xl font-bold text-blue-600 mt-3">89</p>
+                    <p className="text-xs text-blue-700">{t('feedbackViewMockupTotal')}</p>
+                  </div>
+                </div>
+                {/* Recent comments */}
+                <div className="rounded-lg border border-gray-100 p-3">
+                  <p className="text-xs font-medium text-gray-500 mb-2">{t('feedbackViewMockupRecent')}</p>
+                  <div className="space-y-2">
+                    <div className="flex items-start gap-2">
+                      <div className="flex gap-0.5 mt-0.5 shrink-0">
+                        {[1, 2, 3, 4, 5].map((s) => (
+                          <svg key={s} className={`h-3 w-3 ${s <= 5 ? 'text-amber-400' : 'text-gray-300'}`} fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                        ))}
+                      </div>
+                      <p className="text-xs text-gray-600">&quot;Snabb och smidig service!&quot;</p>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <div className="flex gap-0.5 mt-0.5 shrink-0">
+                        {[1, 2, 3, 4, 5].map((s) => (
+                          <svg key={s} className={`h-3 w-3 ${s <= 4 ? 'text-amber-400' : 'text-gray-300'}`} fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                        ))}
+                      </div>
+                      <p className="text-xs text-gray-600">&quot;Didn&apos;t have to wait long at all&quot;</p>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <div className="flex gap-0.5 mt-0.5 shrink-0">
+                        {[1, 2, 3, 4, 5].map((s) => (
+                          <svg key={s} className={`h-3 w-3 ${s <= 3 ? 'text-amber-400' : 'text-gray-300'}`} fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                        ))}
+                      </div>
+                      <p className="text-xs text-gray-600">&quot;Bra kösystem, enkelt att använda&quot;</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="order-1 md:order-2">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">{t('feedbackViewTitle')}</h3>
+              <p className="text-gray-600 leading-relaxed">{t('feedbackViewDesc')}</p>
+            </div>
+          </div>
         </div>
       </section>
 

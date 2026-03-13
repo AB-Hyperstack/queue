@@ -53,24 +53,122 @@ export default function Home() {
             >
               {t('startFreeTrial')}
             </Link>
-            <Link
-              href="/join/demo"
-              className="rounded-lg border border-gray-300 px-6 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-            >
-              {t('tryDemo')}
-            </Link>
-            <Link
-              href="/kiosk/demo"
-              className="rounded-lg border border-gray-300 px-6 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-            >
-              {t('kioskMode')}
-            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Showcase */}
+      <section className="border-t border-gray-100 bg-gray-50/50">
+        <div className="mx-auto max-w-6xl px-6 py-20">
+          <h2 className="text-2xl font-bold text-gray-900 mb-16 text-center">{t('showcaseTitle')}</h2>
+
+          {/* Customer View */}
+          <div className="grid gap-12 md:grid-cols-2 items-center mb-20">
+            <div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">{t('customerViewTitle')}</h3>
+              <p className="text-gray-600 leading-relaxed">{t('customerViewDesc')}</p>
+            </div>
+            <div className="rounded-2xl border border-gray-200 bg-white shadow-lg overflow-hidden">
+              {/* Phone-style mockup */}
+              <div className="bg-blue-600 px-6 py-4 text-white">
+                <p className="text-xs font-medium opacity-80">QueueFlow</p>
+                <p className="text-lg font-bold mt-1">{t('customerViewMockupQueue')}</p>
+              </div>
+              <div className="p-6 space-y-5">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-500">{t('customerViewMockupPosition')}</span>
+                  <span className="text-3xl font-bold text-blue-600">A-04</span>
+                </div>
+                <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
+                  <div className="h-full w-3/5 rounded-full bg-blue-500" />
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  {t('customerViewMockupWait')}
+                </div>
+                <div className="rounded-lg bg-blue-50 p-3 text-center">
+                  <div className="flex items-center justify-center gap-2 text-sm text-blue-700">
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" /></svg>
+                    {t('customerViewMockupNotify')}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Admin View */}
+          <div className="grid gap-12 md:grid-cols-2 items-center">
+            <div className="order-2 md:order-1 rounded-2xl border border-gray-200 bg-white shadow-lg overflow-hidden">
+              {/* Dashboard-style mockup */}
+              <div className="bg-gray-900 px-6 py-3 flex items-center gap-2">
+                <div className="flex gap-1.5">
+                  <div className="h-2.5 w-2.5 rounded-full bg-red-400" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-green-400" />
+                </div>
+                <span className="text-xs text-gray-400 ml-2">QueueFlow Dashboard</span>
+              </div>
+              <div className="p-5">
+                {/* Stats row */}
+                <div className="grid grid-cols-3 gap-3 mb-4">
+                  <div className="rounded-lg bg-amber-50 p-3 text-center">
+                    <p className="text-xl font-bold text-amber-600">5</p>
+                    <p className="text-xs text-amber-700">{t('adminViewMockupWaiting')}</p>
+                  </div>
+                  <div className="rounded-lg bg-blue-50 p-3 text-center">
+                    <p className="text-xl font-bold text-blue-600">2</p>
+                    <p className="text-xs text-blue-700">{t('adminViewMockupServing')}</p>
+                  </div>
+                  <div className="rounded-lg bg-gray-50 p-3 text-center">
+                    <p className="text-xl font-bold text-gray-600">4m</p>
+                    <p className="text-xs text-gray-500">Avg Wait</p>
+                  </div>
+                </div>
+                {/* Queue list */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between rounded-lg border border-blue-200 bg-blue-50/50 p-3">
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">A-01</span>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">Erik S.</p>
+                        <p className="text-xs text-blue-600">{t('adminViewMockupServing')}</p>
+                      </div>
+                    </div>
+                    <button className="rounded-md bg-green-600 px-3 py-1 text-xs font-medium text-white">{t('adminViewMockupComplete')}</button>
+                  </div>
+                  <div className="flex items-center justify-between rounded-lg border border-gray-200 p-3">
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-xs font-bold text-gray-600">A-02</span>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">Anna L.</p>
+                        <p className="text-xs text-gray-500">{t('adminViewMockupWaiting')} — 3 min</p>
+                      </div>
+                    </div>
+                    <button className="rounded-md bg-blue-600 px-3 py-1 text-xs font-medium text-white">{t('adminViewMockupCall')}</button>
+                  </div>
+                  <div className="flex items-center justify-between rounded-lg border border-gray-200 p-3">
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-xs font-bold text-gray-600">A-03</span>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">Johan K.</p>
+                        <p className="text-xs text-gray-500">{t('adminViewMockupWaiting')} — 1 min</p>
+                      </div>
+                    </div>
+                    <button className="rounded-md bg-blue-600 px-3 py-1 text-xs font-medium text-white">{t('adminViewMockupCall')}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="order-1 md:order-2">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">{t('adminViewTitle')}</h3>
+              <p className="text-gray-600 leading-relaxed">{t('adminViewDesc')}</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Features */}
-      <section className="border-t border-gray-100 bg-gray-50/50">
+      <section className="border-t border-gray-100">
         <div className="mx-auto max-w-6xl px-6 py-20">
           <h2 className="text-2xl font-bold text-gray-900 mb-12">{t('everythingYouNeed')}</h2>
           <div className="grid gap-8 md:grid-cols-3">

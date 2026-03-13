@@ -23,7 +23,7 @@ export const TRIAL_DURATION_DAYS = 14;
 export const TRIAL_WARNING_DAYS = 3;
 
 export const PLAN_FEATURES = [
-  'Unlimited queues',
+  'Up to 3 queues',
   'Unlimited staff members',
   'Real-time analytics',
   'QR codes & kiosk mode',

@@ -55,8 +55,10 @@ export default function SettingsPage() {
 
   const appUrl = typeof window !== 'undefined' ? window.location.origin : '';
 
+  const MAX_QUEUES = 3;
+
   const createQueue = async () => {
-    if (!org || !newQueueName.trim()) return;
+    if (!org || !newQueueName.trim() || queues.length >= MAX_QUEUES) return;
     setCreating(true);
 
     const slug = newQueueName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -255,22 +257,28 @@ export default function SettingsPage() {
             ))}
 
             {/* Add new queue */}
-            <div className="flex gap-2 pt-2 border-t border-gray-100">
-              <Input
-                placeholder={t('newQueuePlaceholder')}
-                value={newQueueName}
-                onChange={(e) => setNewQueueName(e.target.value)}
-                className="flex-1"
-              />
-              <Button
-                size="md"
-                disabled={!newQueueName.trim()}
-                loading={creating}
-                onClick={createQueue}
-              >
-                {tc('add')}
-              </Button>
-            </div>
+            {queues.length >= MAX_QUEUES ? (
+              <p className="text-xs text-gray-500 pt-2 border-t border-gray-100">
+                {t('queueLimitReached', { max: MAX_QUEUES })}
+              </p>
+            ) : (
+              <div className="flex gap-2 pt-2 border-t border-gray-100">
+                <Input
+                  placeholder={t('newQueuePlaceholder')}
+                  value={newQueueName}
+                  onChange={(e) => setNewQueueName(e.target.value)}
+                  className="flex-1"
+                />
+                <Button
+                  size="md"
+                  disabled={!newQueueName.trim()}
+                  loading={creating}
+                  onClick={createQueue}
+                >
+                  {tc('add')}
+                </Button>
+              </div>
+            )}
           </div>
         </Card>
 

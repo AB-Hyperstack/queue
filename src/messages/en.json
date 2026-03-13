@@ -64,7 +64,7 @@
     "yearlyPer": "/year",
     "yearlyDesc": "417 kr/month, billed yearly",
     "save17": "Save 17%",
-    "unlimitedQueues": "Unlimited queues",
+    "unlimitedQueues": "Up to 3 queues",
     "unlimitedStaff": "Unlimited staff members",
     "realtimeAnalytics": "Real-time analytics",
     "qrAndKiosk": "QR codes & kiosk mode",
@@ -178,6 +178,7 @@
     "mainJoinLink": "Main Join Link",
     "queueLanes": "Queue Lanes",
     "newQueuePlaceholder": "New queue name (e.g. Support)",
+    "queueLimitReached": "You have reached the maximum of {max} queues.",
     "kioskModeTitle": "Kiosk Mode",
     "kioskModeDesc": "Open this link on a tablet to use Kiosk mode for walk-in customers.",
     "displayModeTitle": "Waiting Room Display",
@@ -348,7 +349,7 @@
     "stars": "{count, plural, one {star} other {stars}}"
   },
   "PlanFeatures": {
-    "unlimitedQueues": "Unlimited queues",
+    "unlimitedQueues": "Up to 3 queues",
     "unlimitedStaff": "Unlimited staff members",
     "realtimeAnalytics": "Real-time analytics",
     "qrAndKiosk": "QR codes & kiosk mode",

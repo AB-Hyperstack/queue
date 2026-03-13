@@ -64,7 +64,7 @@
     "yearlyPer": "/år",
     "yearlyDesc": "417 kr/månad, faktureras årsvis",
     "save17": "Spara 17%",
-    "unlimitedQueues": "Obegränsade köer",
+    "unlimitedQueues": "Upp till 3 köer",
     "unlimitedStaff": "Obegränsat antal medarbetare",
     "realtimeAnalytics": "Realtidsanalys",
     "qrAndKiosk": "QR-koder och kioskläge",
@@ -178,6 +178,7 @@
     "mainJoinLink": "Huvudlänk för att gå med",
     "queueLanes": "Köfält",
     "newQueuePlaceholder": "Nytt könamn (t.ex. Support)",
+    "queueLimitReached": "Du har nått maxgränsen på {max} köer.",
     "kioskModeTitle": "Kioskläge",
     "kioskModeDesc": "Öppna denna länk på en surfplatta för att använda kioskläge för besökare.",
     "displayModeTitle": "Väntrumsvisning",
@@ -348,7 +349,7 @@
     "stars": "{count, plural, one {stjärna} other {stjärnor}}"
   },
   "PlanFeatures": {
-    "unlimitedQueues": "Obegränsade köer",
+    "unlimitedQueues": "Upp till 3 köer",
     "unlimitedStaff": "Obegränsat antal medarbetare",
     "realtimeAnalytics": "Realtidsanalys",
     "qrAndKiosk": "QR-koder och kioskläge",

@@ -17,6 +17,7 @@
   "dependencies": {
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.98.0",
+    "@swc/helpers": "^0.5.19",
     "date-fns": "^4.1.0",
     "jsonwebtoken": "^9.0.3",
     "next": "16.1.6",

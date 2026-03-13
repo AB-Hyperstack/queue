@@ -73,6 +73,25 @@ export default function TrackPage() {
       ).length
     : 0;
 
+  // Polling fallback — keeps ticket status up-to-date even if realtime drops
+  useEffect(() => {
+    if (!ticketId) return;
+    const interval = setInterval(async () => {
+      const supabase = createClient();
+      const { data } = await supabase
+        .from('tickets')
+        .select('*')
+        .eq('id', ticketId)
+        .single();
+      if (data) {
+        setTicket((prev) =>
+          prev && JSON.stringify(prev) !== JSON.stringify(data) ? data : prev
+        );
+      }
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [ticketId]);
+
   // Check notification state on mount
   useEffect(() => {
     if ('Notification' in window) {

@@ -277,6 +277,155 @@ export default function Home() {
               <p className="text-gray-600 leading-relaxed">{t('feedbackViewDesc')}</p>
             </div>
           </div>
+          {/* QR Code Ticket Tracking */}
+          <div className="grid gap-12 md:grid-cols-2 items-center mt-20">
+            <div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">{t('qrTrackingTitle')}</h3>
+              <p className="text-gray-600 leading-relaxed">{t('qrTrackingDesc')}</p>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {/* Printed ticket mockup */}
+              <div className="flex flex-col items-center">
+                <p className="text-xs font-medium text-gray-400 mb-2">{t('qrTrackingMockupPrintedTicket')}</p>
+                <div className="rounded-xl border-2 border-dashed border-gray-300 bg-white p-5 w-full shadow-sm">
+                  <div className="text-center space-y-3">
+                    <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">QueueFlow</p>
+                    <div className="border-t border-dashed border-gray-200 pt-3">
+                      <p className="text-xs text-gray-500">{t('qrTrackingMockupYourNumber')}</p>
+                      <p className="text-4xl font-bold text-gray-900 tracking-wider mt-1">B-07</p>
+                    </div>
+                    <p className="text-[10px] text-gray-400">General Queue</p>
+                    {/* QR code placeholder */}
+                    <div className="mx-auto w-20 h-20 bg-gray-900 rounded-md p-1.5">
+                      <div className="w-full h-full bg-white rounded-sm grid grid-cols-5 grid-rows-5 gap-px p-1">
+                        {[1,1,1,0,1, 1,0,0,1,1, 0,1,1,0,0, 1,1,0,1,1, 1,0,1,1,0].map((v, i) => (
+                          <div key={i} className={`rounded-[1px] ${v ? 'bg-gray-900' : 'bg-white'}`} />
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-[9px] text-gray-400">{t('qrTrackingMockupScan')}</p>
+                    <div className="border-t border-dashed border-gray-200 pt-2">
+                      <p className="text-[8px] text-gray-300">14 Mar 2026 — 10:34</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Phone tracking mockup */}
+              <div className="flex flex-col items-center">
+                <p className="text-xs font-medium text-gray-400 mb-2">{t('qrTrackingMockupLiveTracking')}</p>
+                <div className="rounded-2xl border border-gray-200 bg-white shadow-lg overflow-hidden w-full">
+                  <div className="bg-blue-600 px-4 py-3 text-white">
+                    <p className="text-[10px] font-medium opacity-80">QueueFlow</p>
+                    <p className="text-sm font-bold mt-0.5">B-07</p>
+                  </div>
+                  <div className="p-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-500">{t('qrTrackingMockupPosition')}</span>
+                      <span className="text-2xl font-bold text-blue-600">#3</span>
+                    </div>
+                    <div className="h-1.5 rounded-full bg-gray-100 overflow-hidden">
+                      <div className="h-full w-2/3 rounded-full bg-blue-500" />
+                    </div>
+                    <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      {t('qrTrackingMockupWait')}
+                    </div>
+                    <div className="rounded-lg bg-blue-50 p-2 text-center">
+                      <div className="flex items-center justify-center gap-1.5 text-xs text-blue-700">
+                        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" /></svg>
+                        {t('qrTrackingMockupNotify')}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Hardware Setup - Bouncepad */}
+          <div className="grid gap-12 md:grid-cols-2 items-center mt-20">
+            <div className="order-2 md:order-1">
+              {/* Kiosk stand visual mockup */}
+              <div className="rounded-2xl border border-gray-200 bg-gradient-to-b from-gray-50 to-white shadow-lg overflow-hidden p-8">
+                <div className="flex flex-col items-center">
+                  {/* Stand illustration */}
+                  <div className="relative w-48">
+                    {/* Tablet */}
+                    <div className="rounded-xl border-4 border-gray-800 bg-white overflow-hidden shadow-xl">
+                      <div className="bg-blue-600 px-3 py-2 text-white text-center">
+                        <p className="text-[9px] font-medium opacity-80">QueueFlow Kiosk</p>
+                      </div>
+                      <div className="p-3 space-y-2">
+                        <div className="rounded-lg bg-blue-50 p-2 text-center">
+                          <p className="text-[10px] font-semibold text-blue-700">General</p>
+                          <p className="text-lg font-bold text-blue-600">5</p>
+                          <p className="text-[8px] text-blue-500">waiting</p>
+                        </div>
+                        <div className="rounded-lg bg-amber-50 p-2 text-center">
+                          <p className="text-[10px] font-semibold text-amber-700">Support</p>
+                          <p className="text-lg font-bold text-amber-600">2</p>
+                          <p className="text-[8px] text-amber-500">waiting</p>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Printer unit */}
+                    <div className="mx-auto w-28 mt-1">
+                      <div className="rounded-md border-2 border-gray-300 bg-gray-100 px-2 py-1.5 flex items-center gap-1.5">
+                        <svg className="h-3 w-3 text-gray-500 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18.25 7.034V3.375" />
+                        </svg>
+                        <span className="text-[8px] text-gray-500 font-medium">Brother® QL-820NWB</span>
+                      </div>
+                    </div>
+                    {/* Stand pole */}
+                    <div className="mx-auto w-3 h-24 bg-gradient-to-b from-gray-300 to-gray-400 rounded-sm" />
+                    {/* Base */}
+                    <div className="mx-auto w-32 h-3 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full" />
+                  </div>
+                  {/* Label */}
+                  <div className="mt-4 text-center">
+                    <p className="text-sm font-bold text-gray-800">{t('hardwareMockupTitle')}</p>
+                    <p className="text-xs text-gray-500">{t('hardwareMockupSubtitle')}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="order-1 md:order-2">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">{t('hardwareTitle')}</h3>
+              <p className="text-gray-600 leading-relaxed mb-6">{t('hardwareDesc')}</p>
+              <ul className="space-y-2 text-sm text-gray-600 mb-6">
+                <li className="flex items-center gap-2">
+                  <svg className="h-4 w-4 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  {t('hardwareFeature1')}
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="h-4 w-4 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  {t('hardwareFeature2')}
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="h-4 w-4 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  {t('hardwareFeature3')}
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="h-4 w-4 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  {t('hardwareFeature4')}
+                </li>
+              </ul>
+              <div className="flex items-center gap-4">
+                <a
+                  href="https://eu.bouncepad.com/en-eu/products/floorstanding-with-brother-printer-mount"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-800 transition-colors"
+                >
+                  {t('hardwareCta')}
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>
+                </a>
+                <span className="text-sm font-semibold text-gray-500">{t('hardwarePrice')}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

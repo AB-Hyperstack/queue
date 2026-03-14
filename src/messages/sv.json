@@ -111,7 +111,11 @@
     "autoClose": "Denna skärm stängs automatiskt",
     "waiting": "Väntar",
     "nowServing": "Betjänar nu",
-    "takeANumber": "Ta en nummerlapp"
+    "takeANumber": "Ta en nummerlapp",
+    "connectPrinter": "Anslut skrivare",
+    "printerConnected": "Skrivare ansluten",
+    "printerConnecting": "Ansluter...",
+    "printerError": "Anslutning misslyckades"
   },
   "Display": {
     "nowServing": "Betjänar nu",

@@ -111,7 +111,11 @@
     "autoClose": "This screen will close automatically",
     "waiting": "Waiting",
     "nowServing": "Now Serving",
-    "takeANumber": "Take a Number"
+    "takeANumber": "Take a Number",
+    "connectPrinter": "Connect Printer",
+    "printerConnected": "Printer Connected",
+    "printerConnecting": "Connecting...",
+    "printerError": "Connection Failed"
   },
   "Display": {
     "nowServing": "Now Serving",

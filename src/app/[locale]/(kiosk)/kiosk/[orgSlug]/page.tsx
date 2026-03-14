@@ -7,6 +7,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { createClient } from '@/lib/supabase/client';
 import { useQueue } from '@/lib/hooks/useQueue';
 import { useRealtimeTickets } from '@/lib/hooks/useRealtimeTickets';
+import { usePrinter } from '@/lib/hooks/usePrinter';
 import type { Queue, Organization } from '@/lib/types/database';
 
 export default function KioskPage() {
@@ -23,6 +24,7 @@ export default function KioskPage() {
   const dismissTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { joinQueue } = useQueue();
+  const printer = usePrinter();
 
   const appUrl = typeof window !== 'undefined' ? window.location.origin : '';
 
@@ -78,6 +80,18 @@ export default function KioskPage() {
       setTicketCode(data.display_code);
       setTicketId(data.id);
       setShowTicket(true);
+
+      // Fire-and-forget: print ticket if printer is connected
+      if (printer.status === 'connected') {
+        const trackUrl = `${appUrl}/track/${data.id}`;
+        printer.print({
+          orgName: org.name,
+          queueName: queue.name,
+          displayCode: data.display_code,
+          trackUrl,
+          timestamp: new Date(),
+        });
+      }
 
       // Auto-dismiss after 12 seconds (longer to allow QR scanning)
       if (dismissTimerRef.current) clearTimeout(dismissTimerRef.current);
@@ -145,8 +159,44 @@ export default function KioskPage() {
             <p className="text-sm text-gray-500">{t('tapToTakeNumber')}</p>
           </div>
         </div>
-        <div className="text-right">
-          <p className="text-sm text-gray-400">{t('kioskBranding')}</p>
+        <div className="flex items-center gap-4">
+          {/* Bluetooth Printer Button – only shown when Web Bluetooth is available */}
+          {printer.supported && (
+            <button
+              onClick={printer.status === 'connected' ? printer.disconnect : printer.connect}
+              disabled={printer.status === 'connecting'}
+              className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
+                printer.status === 'connected'
+                  ? 'bg-green-50 text-green-700 border border-green-200'
+                  : printer.status === 'connecting'
+                  ? 'bg-yellow-50 text-yellow-700 border border-yellow-200 cursor-wait'
+                  : printer.status === 'error'
+                  ? 'bg-red-50 text-red-700 border border-red-200'
+                  : 'bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200'
+              }`}
+            >
+              {/* Printer icon */}
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18.25 7.034V3.375" />
+              </svg>
+              <span>
+                {printer.status === 'connected'
+                  ? t('printerConnected')
+                  : printer.status === 'connecting'
+                  ? t('printerConnecting')
+                  : printer.status === 'error'
+                  ? t('printerError')
+                  : t('connectPrinter')}
+              </span>
+              {/* Green dot indicator when connected */}
+              {printer.status === 'connected' && (
+                <span className="h-2 w-2 rounded-full bg-green-500" />
+              )}
+            </button>
+          )}
+          <div className="text-right">
+            <p className="text-sm text-gray-400">{t('kioskBranding')}</p>
+          </div>
         </div>
       </header>
 

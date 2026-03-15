@@ -135,7 +135,12 @@
     "connectPrinter": "Connect Printer",
     "printerConnected": "Printer Connected",
     "printerConnecting": "Connecting...",
-    "printerError": "Connection Failed"
+    "printerError": "Connection Failed",
+    "activatePrinter": "Activate Printer",
+    "enterActivationCode": "Enter Activation Code",
+    "enterActivationCodeDesc": "Enter the activation code from your QueueFlow settings to enable the Bluetooth printer.",
+    "invalidCode": "Invalid activation code. Please try again.",
+    "activate": "Activate"
   },
   "Display": {
     "nowServing": "Now Serving",
@@ -205,6 +210,11 @@
     "queueLimitReached": "You have reached the maximum of {max} queues.",
     "kioskModeTitle": "Kiosk Mode",
     "kioskModeDesc": "Open this link on a tablet to use Kiosk mode for walk-in customers.",
+    "printerActivationTitle": "Printer Activation",
+    "printerActivationDesc": "Set an activation code to enable the Bluetooth printer on the kiosk page. Share this code with the staff setting up the kiosk tablet.",
+    "generateCode": "Generate",
+    "removeCode": "Remove",
+    "codeActive": "Printer activation code is active. Enter this code on the kiosk to enable printing.",
     "displayModeTitle": "Waiting Room Display",
     "displayModeDesc": "Open this link on a TV or screen in your waiting room to show current queue numbers and status."
   },

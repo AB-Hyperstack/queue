@@ -8,12 +8,14 @@ import { createClient } from '@/lib/supabase/client';
 import { useQueue } from '@/lib/hooks/useQueue';
 import { useRealtimeTickets } from '@/lib/hooks/useRealtimeTickets';
 import { usePrinter } from '@/lib/hooks/usePrinter';
+import Modal from '@/components/ui/Modal';
 import type { Queue, Organization } from '@/lib/types/database';
 
 export default function KioskPage() {
   const params = useParams();
   const orgSlug = params.orgSlug as string;
   const t = useTranslations('Kiosk');
+  const tc = useTranslations('Common');
 
   const [org, setOrg] = useState<Organization | null>(null);
   const [queues, setQueues] = useState<Queue[]>([]);
@@ -21,6 +23,10 @@ export default function KioskPage() {
   const [ticketCode, setTicketCode] = useState<string | null>(null);
   const [ticketId, setTicketId] = useState<string | null>(null);
   const [showTicket, setShowTicket] = useState(false);
+  const [printerActivated, setPrinterActivated] = useState(false);
+  const [showCodeModal, setShowCodeModal] = useState(false);
+  const [codeInput, setCodeInput] = useState('');
+  const [codeError, setCodeError] = useState(false);
   const dismissTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { joinQueue } = useQueue();
@@ -52,6 +58,30 @@ export default function KioskPage() {
     }
     load();
   }, [orgSlug]);
+
+  // Check localStorage for printer activation
+  useEffect(() => {
+    if (!org) return;
+    const storedCode = localStorage.getItem(`queueflow_printer_activated_${orgSlug}`);
+    const orgCode = org.settings?.printer_code as string | undefined;
+    if (orgCode && storedCode === orgCode) {
+      setPrinterActivated(true);
+    }
+  }, [org, orgSlug]);
+
+  const handleCodeSubmit = () => {
+    const orgCode = org?.settings?.printer_code as string | undefined;
+    if (!orgCode) return;
+    if (codeInput.toUpperCase().trim() === orgCode.toUpperCase()) {
+      localStorage.setItem(`queueflow_printer_activated_${orgSlug}`, orgCode);
+      setPrinterActivated(true);
+      setShowCodeModal(false);
+      setCodeInput('');
+      setCodeError(false);
+    } else {
+      setCodeError(true);
+    }
+  };
 
   // Get realtime waiting counts
   const { tickets: allTickets } = useRealtimeTickets({
@@ -160,39 +190,51 @@ export default function KioskPage() {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          {/* Bluetooth Printer Button – only shown when Web Bluetooth is available */}
-          {printer.supported && (
-            <button
-              onClick={printer.status === 'connected' ? printer.disconnect : printer.connect}
-              disabled={printer.status === 'connecting'}
-              className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
-                printer.status === 'connected'
-                  ? 'bg-green-50 text-green-700 border border-green-200'
-                  : printer.status === 'connecting'
-                  ? 'bg-yellow-50 text-yellow-700 border border-yellow-200 cursor-wait'
-                  : printer.status === 'error'
-                  ? 'bg-red-50 text-red-700 border border-red-200'
-                  : 'bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200'
-              }`}
-            >
-              {/* Printer icon */}
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18.25 7.034V3.375" />
-              </svg>
-              <span>
-                {printer.status === 'connected'
-                  ? t('printerConnected')
-                  : printer.status === 'connecting'
-                  ? t('printerConnecting')
-                  : printer.status === 'error'
-                  ? t('printerError')
-                  : t('connectPrinter')}
-              </span>
-              {/* Green dot indicator when connected */}
-              {printer.status === 'connected' && (
-                <span className="h-2 w-2 rounded-full bg-green-500" />
-              )}
-            </button>
+          {/* Bluetooth Printer Button – gated by activation code */}
+          {printer.supported && !!(org?.settings?.printer_code) && (
+            printerActivated ? (
+              <button
+                onClick={printer.status === 'connected' ? printer.disconnect : printer.connect}
+                disabled={printer.status === 'connecting'}
+                className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
+                  printer.status === 'connected'
+                    ? 'bg-green-50 text-green-700 border border-green-200'
+                    : printer.status === 'connecting'
+                    ? 'bg-yellow-50 text-yellow-700 border border-yellow-200 cursor-wait'
+                    : printer.status === 'error'
+                    ? 'bg-red-50 text-red-700 border border-red-200'
+                    : 'bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200'
+                }`}
+              >
+                {/* Printer icon */}
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18.25 7.034V3.375" />
+                </svg>
+                <span>
+                  {printer.status === 'connected'
+                    ? t('printerConnected')
+                    : printer.status === 'connecting'
+                    ? t('printerConnecting')
+                    : printer.status === 'error'
+                    ? t('printerError')
+                    : t('connectPrinter')}
+                </span>
+                {printer.status === 'connected' && (
+                  <span className="h-2 w-2 rounded-full bg-green-500" />
+                )}
+              </button>
+            ) : (
+              <button
+                onClick={() => setShowCodeModal(true)}
+                className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200"
+              >
+                {/* Lock icon */}
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                </svg>
+                <span>{t('activatePrinter')}</span>
+              </button>
+            )
           )}
           <div className="text-right">
             <p className="text-sm text-gray-400">{t('kioskBranding')}</p>
@@ -246,6 +288,53 @@ export default function KioskPage() {
           );
         })}
       </main>
+
+      {/* Activation Code Modal */}
+      <Modal
+        open={showCodeModal}
+        onClose={() => { setShowCodeModal(false); setCodeError(false); setCodeInput(''); }}
+        title={t('enterActivationCode')}
+      >
+        <div className="space-y-4">
+          <p className="text-sm text-gray-600">{t('enterActivationCodeDesc')}</p>
+          <div>
+            <input
+              value={codeInput}
+              onChange={(e) => {
+                setCodeInput(e.target.value.toUpperCase());
+                setCodeError(false);
+              }}
+              placeholder="XXXX-XXXX"
+              className={`w-full rounded-lg border px-4 py-3 font-mono text-lg tracking-wider text-center focus:outline-none focus:ring-2 ${
+                codeError
+                  ? 'border-red-300 focus:ring-red-500'
+                  : 'border-gray-300 focus:ring-blue-500'
+              }`}
+              maxLength={9}
+              autoFocus
+              onKeyDown={(e) => { if (e.key === 'Enter') handleCodeSubmit(); }}
+            />
+            {codeError && (
+              <p className="mt-1 text-sm text-red-600">{t('invalidCode')}</p>
+            )}
+          </div>
+          <div className="flex justify-end gap-2">
+            <button
+              onClick={() => { setShowCodeModal(false); setCodeError(false); setCodeInput(''); }}
+              className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              {tc('cancel')}
+            </button>
+            <button
+              onClick={handleCodeSubmit}
+              disabled={!codeInput.trim()}
+              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50 transition-colors"
+            >
+              {t('activate')}
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

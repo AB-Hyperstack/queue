@@ -135,7 +135,12 @@
     "connectPrinter": "Anslut skrivare",
     "printerConnected": "Skrivare ansluten",
     "printerConnecting": "Ansluter...",
-    "printerError": "Anslutning misslyckades"
+    "printerError": "Anslutning misslyckades",
+    "activatePrinter": "Aktivera skrivare",
+    "enterActivationCode": "Ange aktiveringskod",
+    "enterActivationCodeDesc": "Ange aktiveringskoden från dina QueueFlow-inställningar för att aktivera Bluetooth-skrivaren.",
+    "invalidCode": "Ogiltig aktiveringskod. Försök igen.",
+    "activate": "Aktivera"
   },
   "Display": {
     "nowServing": "Betjänar nu",
@@ -205,6 +210,11 @@
     "queueLimitReached": "Du har nått maxgränsen på {max} köer.",
     "kioskModeTitle": "Kioskläge",
     "kioskModeDesc": "Öppna denna länk på en surfplatta för att använda kioskläge för besökare.",
+    "printerActivationTitle": "Skrivaraktivering",
+    "printerActivationDesc": "Ange en aktiveringskod för att aktivera Bluetooth-skrivaren på kiosksidan. Dela koden med personalen som konfigurerar kiosken.",
+    "generateCode": "Generera",
+    "removeCode": "Ta bort",
+    "codeActive": "Skrivarens aktiveringskod är aktiv. Ange koden på kiosken för att aktivera utskrift.",
     "displayModeTitle": "Väntrumsvisning",
     "displayModeDesc": "Öppna denna länk på en TV eller skärm i väntrummet för att visa aktuella könummer och status."
   },

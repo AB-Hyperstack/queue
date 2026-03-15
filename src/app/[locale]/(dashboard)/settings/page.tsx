@@ -21,6 +21,8 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [newQueueName, setNewQueueName] = useState('');
   const [creating, setCreating] = useState(false);
+  const [printerCode, setPrinterCode] = useState('');
+  const [savingCode, setSavingCode] = useState(false);
   const qrRef = useRef<HTMLDivElement>(null);
   const { isTrialing, isActive, isExpired, daysRemaining, showWarning, subscription, loading: subLoading } = useSubscription();
 
@@ -39,6 +41,9 @@ export default function SettingsPage() {
       if (staff) {
         const orgData = (staff as StaffMember & { organizations: Organization }).organizations;
         setOrg(orgData);
+        if (orgData.settings?.printer_code) {
+          setPrinterCode(orgData.settings.printer_code as string);
+        }
 
         const { data: queueData } = await supabase
           .from('queues')
@@ -101,6 +106,32 @@ export default function SettingsPage() {
       a.click();
     };
     img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+  };
+
+  const generateActivationCode = (): string => {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code = '';
+    const values = crypto.getRandomValues(new Uint8Array(8));
+    for (let i = 0; i < 8; i++) {
+      code += chars[values[i] % chars.length];
+    }
+    return code.slice(0, 4) + '-' + code.slice(4);
+  };
+
+  const savePrinterCode = async (code: string) => {
+    if (!org) return;
+    setSavingCode(true);
+    const supabase = createClient();
+    const newSettings = { ...org.settings, printer_code: code || null };
+    const { error } = await supabase
+      .from('organizations')
+      .update({ settings: newSettings })
+      .eq('id', org.id);
+    if (!error) {
+      setOrg({ ...org, settings: newSettings });
+      setPrinterCode(code);
+    }
+    setSavingCode(false);
   };
 
   if (loading) {
@@ -299,6 +330,57 @@ export default function SettingsPage() {
             >
               {tc('copy')}
             </Button>
+          </div>
+        </Card>
+
+        {/* Printer Activation */}
+        <h2 className="text-lg font-semibold text-gray-900 mt-8 mb-4">{t('printerActivationTitle')}</h2>
+        <Card>
+          <p className="text-sm text-gray-600 mb-4">
+            {t('printerActivationDesc')}
+          </p>
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <Input
+                value={printerCode}
+                onChange={(e) => setPrinterCode(e.target.value.toUpperCase())}
+                placeholder="XXXX-XXXX"
+                className="flex-1 font-mono tracking-wider"
+                maxLength={9}
+              />
+              <Button
+                size="md"
+                variant="secondary"
+                onClick={() => setPrinterCode(generateActivationCode())}
+              >
+                {t('generateCode')}
+              </Button>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                size="md"
+                loading={savingCode}
+                onClick={() => savePrinterCode(printerCode)}
+              >
+                {tc('save')}
+              </Button>
+              {!!(org?.settings?.printer_code) && (
+                <Button
+                  size="md"
+                  variant="secondary"
+                  onClick={() => savePrinterCode('')}
+                  loading={savingCode}
+                >
+                  {t('removeCode')}
+                </Button>
+              )}
+            </div>
+            {!!(org?.settings?.printer_code) && (
+              <p className="text-xs text-green-600 flex items-center gap-1">
+                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                {t('codeActive')}
+              </p>
+            )}
           </div>
         </Card>
 
